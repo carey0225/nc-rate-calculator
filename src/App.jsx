@@ -6,7 +6,6 @@ function App() {
   const [usage, setUsage] = useState(1000);
   const [isTOU, setIsTOU] = useState(false);
 
-  // Updated with 2026/2027 NCUC Filing Estimates for Duke Energy Progress (DEP)
   const RATES = {
     standard: {
       current: { base: 14.00, energy: 0.12119, storm: 0.00210, riderSum: 18.51, clean: 1.52 },
@@ -30,7 +29,7 @@ function App() {
       base: config.base.toFixed(2),
       energy: energyVal.toFixed(2),
       storm: stormVal.toFixed(2),
-      riders: config.riderSum.toFixed(2),
+      riders: config.riders ? config.riders.toFixed(2) : config.riderSum.toFixed(2),
       clean: config.clean.toFixed(2),
       tax: tax.toFixed(2),
       total: (subtotal + tax).toFixed(2)
@@ -42,7 +41,6 @@ function App() {
 
   return (
     <div className="bill-container">
-      {/* BRANDING HEADER */}
       <div className="bill-header">
         <div className="brand">
           <img src={logo} alt="Duke Energy Progress Logo" className="bill-logo" />
@@ -56,9 +54,9 @@ function App() {
         </div>
       </div>
 
-      {/* EDUCATIONAL INTRO */}
       <section className="site-intro">
         <h1>NC Residential Rate Impact Tool</h1>
+        <div className="title-spacer"></div> {/* Space after title */}
         <p>
           Duke Energy Progress has proposed multi-year rate hikes to the <strong>NC Utilities Commission (NCUC)</strong>. 
           If approved, residential customers could see an average 18.5% increase by 2028.
@@ -69,7 +67,6 @@ function App() {
         </div>
       </section>
 
-      {/* INTERACTIVE CONTROLS */}
       <section className="usage-snapshot">
         <div className="snapshot-header">Your usage snapshot</div>
         
@@ -105,7 +102,6 @@ function App() {
         </div>
       </section>
 
-      {/* DATA TABLE */}
       <section className="billing-details">
         <div className="details-header">
           Billing details - {isTOU ? 'Time-of-Use (R-TOU)' : 'Residential Service (RES)'}
@@ -174,7 +170,6 @@ function App() {
         </table>
       </section>
 
-      {/* FOOTER & DISCLAIMER */}
       <div className="impact-footer">
         <div className="impact-text">
           ESTIMATED MONTHLY INCREASE: <span>${(proposed.total - current.total).toFixed(2)}</span>

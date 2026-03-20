@@ -1,8 +1,8 @@
 :root {
   --duke-blue: #00598c;
-  --duke-green: #4db848;
   --bg-gray: #f4f4f4;
-  --text-dark: #333;
+  --text-dark: #1a1a1a; /* Darker for better contrast */
+  --text-muted: #444444; /* Darker than before */
 }
 
 body {
@@ -10,10 +10,11 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 20px;
+  color: var(--text-dark);
 }
 
 .bill-container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   background: white;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -26,6 +27,7 @@ body {
   padding: 25px 35px;
   background: white;
   border-bottom: 4px solid var(--duke-blue);
+  color: var(--text-dark);
 }
 
 .bill-logo {
@@ -40,7 +42,20 @@ body {
 
 .site-intro h1 {
   color: var(--duke-blue);
-  margin: 0 0 15px 0;
+  margin: 0;
+  font-size: 32px;
+}
+
+/* Spacer requested by user */
+.title-spacer {
+  height: 20px;
+}
+
+.site-intro p {
+  font-size: 1.05rem;
+  color: var(--text-dark);
+  font-weight: 500; /* Slightly thicker font weight */
+  line-height: 1.6;
 }
 
 .intro-highlight {
@@ -48,42 +63,9 @@ body {
   border-left: 4px solid #ffc107;
   padding: 15px;
   margin-top: 15px;
-  font-size: 0.95rem;
-}
-
-/* Controls */
-.usage-snapshot {
-  padding: 25px 35px;
-}
-
-.plan-toggle-container {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.toggle-btn {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid var(--duke-blue);
-  background: white;
-  color: var(--duke-blue);
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.toggle-btn.active {
-  background: var(--duke-blue);
-  color: white;
-}
-
-.tou-info-box {
-  background: #e7f3fb;
-  border-left: 5px solid var(--duke-blue);
-  padding: 15px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  color: #222;
+  font-weight: 500;
 }
 
 /* Table Styles */
@@ -91,42 +73,49 @@ body {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  color: var(--text-dark);
 }
 
 .bill-table th {
   text-align: left;
   background: #f8f9fa;
   padding: 12px;
-  border-bottom: 2px solid #dee2e6;
+  border-bottom: 2px solid #333; /* Darker border */
+  color: var(--text-dark);
+  font-weight: bold;
 }
 
 .bill-table td {
   padding: 12px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #ddd;
+  font-weight: 500;
 }
 
-.rate-col { color: #666; font-size: 0.85rem; }
-
-.total-row { background: #fdfdfd; font-size: 1.1rem; }
-.proposed-total { color: #d32f2f; }
-
-/* Footer */
-.impact-footer {
-  background: var(--duke-blue);
-  color: white;
-  padding: 25px;
-  text-align: center;
+.rate-col { 
+  color: var(--text-muted); 
+  font-size: 0.9rem; 
+  font-family: 'Courier New', Courier, monospace;
 }
 
-.impact-text span {
-  font-size: 2rem;
-  font-weight: bold;
-  display: block;
+/* Red for the higher price - kept slightly dark for readability */
+.proposed-total { 
+  color: #b71c1c; 
+  font-weight: 900;
 }
 
 .regulatory-disclaimer {
   padding: 20px 35px;
-  font-size: 0.8rem;
-  color: #777;
-  background: #f9f9f9;
+  font-size: 0.85rem;
+  color: #333; /* Darker disclaimer */
+  background: #f1f1f1;
+}
+
+/* Buttons and Input */
+.toggle-btn {
+  font-size: 1rem;
+}
+
+.kwh-value {
+  font-weight: 800;
+  color: var(--duke-blue);
 }

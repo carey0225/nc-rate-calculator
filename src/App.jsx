@@ -6,14 +6,15 @@ function App() {
   const [usage, setUsage] = useState(1000);
   const [isTOU, setIsTOU] = useState(false);
 
+  // Updated with 2026/2027 NCUC Filing Estimates for Duke Energy Progress (DEP)
   const RATES = {
     standard: {
       current: { base: 14.00, energy: 0.12119, storm: 0.00210, riderSum: 18.51, clean: 1.52 },
-      proposed: { base: 15.75, energy: 0.13850, storm: 0.00280, riderSum: 22.10, clean: 1.95 }
+      proposed: { base: 15.75, energy: 0.14420, storm: 0.00280, riderSum: 24.10, clean: 1.95 }
     },
     tou: {
       current: { base: 14.00, energy: 0.10850, storm: 0.00210, riderSum: 16.20, clean: 1.52 },
-      proposed: { base: 15.75, energy: 0.12400, storm: 0.00280, riderSum: 19.50, clean: 1.95 }
+      proposed: { base: 15.75, energy: 0.12950, storm: 0.00280, riderSum: 21.40, clean: 1.95 }
     }
   };
 
@@ -41,6 +42,7 @@ function App() {
 
   return (
     <div className="bill-container">
+      {/* BRANDING HEADER */}
       <div className="bill-header">
         <div className="brand">
           <img src={logo} alt="Duke Energy Progress Logo" className="bill-logo" />
@@ -49,12 +51,25 @@ function App() {
           <div className="account-row"><strong>Account number</strong> 0000 0000 0000</div>
           <div className="address-box">
             VALUED CUSTOMER<br/>
-            123 ENERGY WAY<br/>
-            RALEIGH, NC 27601
+            CLAYTON, NC 27527
           </div>
         </div>
       </div>
 
+      {/* EDUCATIONAL INTRO */}
+      <section className="site-intro">
+        <h1>NC Residential Rate Impact Tool</h1>
+        <p>
+          Duke Energy Progress has proposed multi-year rate hikes to the <strong>NC Utilities Commission (NCUC)</strong>. 
+          If approved, residential customers could see an average 18.5% increase by 2028.
+        </p>
+        <div className="intro-highlight">
+          This tool helps NC families visualize how these shifts—driven by grid modernization 
+          and data center demand—affect their specific monthly costs.
+        </div>
+      </section>
+
+      {/* INTERACTIVE CONTROLS */}
       <section className="usage-snapshot">
         <div className="snapshot-header">Your usage snapshot</div>
         
@@ -67,13 +82,12 @@ function App() {
           </button>
         </div>
 
-        {/* CONDITIONAL INFO BOX FOR TOU */}
         {isTOU && (
           <div className="tou-info-box">
             <strong>NC Time-of-Use Peak Hours:</strong>
             <ul>
-              <li><strong>Summer (June-Sept):</strong> On-Peak is 1 p.m. – 7 p.m., Monday-Friday.</li>
-              <li><strong>Winter (Oct-May):</strong> On-Peak is 6 a.m. – 9 a.m., Monday-Friday.</li>
+              <li><strong>Summer (June-Sept):</strong> On-Peak is 1 p.m. – 7 p.m., Mon-Fri.</li>
+              <li><strong>Winter (Oct-May):</strong> On-Peak is 6 a.m. – 9 a.m., Mon-Fri.</li>
               <li><strong>Off-Peak:</strong> All other hours, weekends, and holidays are discounted.</li>
             </ul>
           </div>
@@ -91,9 +105,10 @@ function App() {
         </div>
       </section>
 
+      {/* DATA TABLE */}
       <section className="billing-details">
         <div className="details-header">
-          Billing details - {isTOU ? 'Time-of-Use Service' : 'Residential Service'}
+          Billing details - {isTOU ? 'Time-of-Use (R-TOU)' : 'Residential Service (RES)'}
         </div>
         <table className="bill-table">
           <thead>
@@ -159,6 +174,7 @@ function App() {
         </table>
       </section>
 
+      {/* FOOTER & DISCLAIMER */}
       <div className="impact-footer">
         <div className="impact-text">
           ESTIMATED MONTHLY INCREASE: <span>${(proposed.total - current.total).toFixed(2)}</span>
@@ -168,8 +184,8 @@ function App() {
       <footer className="regulatory-disclaimer">
         <div className="disclaimer-title">Regulatory Notice & Disclaimer</div>
         <p>
-          Proposed figures are based on NCUC Docket No. E-2 estimates[cite: 145]. 
-          Time-of-Use savings depend entirely on shifting heavy usage (laundry, HVAC, EV charging) to Off-Peak hours.
+          Figures based on NCUC Docket No. E-2 SUB 1380. Actual impacts vary 
+          by household behavior. Public hearings are scheduled across NC in Spring 2026.
         </p>
       </footer>
     </div>

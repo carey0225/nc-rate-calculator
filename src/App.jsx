@@ -1,0 +1,179 @@
+import { useState } from 'react'
+import logo from './DukeEnergyLogo.png'
+import './App.css'
+
+function App() {
+  const [usage, setUsage] = useState(1000);
+  const [isTOU, setIsTOU] = useState(false);
+
+  const RATES = {
+    standard: {
+      current: { base: 14.00, energy: 0.12119, storm: 0.00210, riderSum: 18.51, clean: 1.52 },
+      proposed: { base: 15.75, energy: 0.13850, storm: 0.00280, riderSum: 22.10, clean: 1.95 }
+    },
+    tou: {
+      current: { base: 14.00, energy: 0.10850, storm: 0.00210, riderSum: 16.20, clean: 1.52 },
+      proposed: { base: 15.75, energy: 0.12400, storm: 0.00280, riderSum: 19.50, clean: 1.95 }
+    }
+  };
+
+  const activeRates = isTOU ? RATES.tou : RATES.standard;
+
+  const getBillBreakdown = (config) => {
+    const energyVal = usage * config.energy;
+    const stormVal = usage * config.storm;
+    const subtotal = config.base + energyVal + stormVal + config.riderSum + config.clean;
+    const tax = subtotal * 0.07;
+    
+    return {
+      base: config.base.toFixed(2),
+      energy: energyVal.toFixed(2),
+      storm: stormVal.toFixed(2),
+      riders: config.riderSum.toFixed(2),
+      clean: config.clean.toFixed(2),
+      tax: tax.toFixed(2),
+      total: (subtotal + tax).toFixed(2)
+    };
+  };
+
+  const current = getBillBreakdown(activeRates.current);
+  const proposed = getBillBreakdown(activeRates.proposed);
+
+  return (
+    <div className="bill-container">
+      <div className="bill-header">
+        <div className="brand">
+          <img src={logo} alt="Duke Energy Progress Logo" className="bill-logo" />
+        </div>
+        <div className="bill-meta">
+          <div className="account-row"><strong>Account number</strong> 0000 0000 0000</div>
+          <div className="address-box">
+            VALUED CUSTOMER<br/>
+            123 ENERGY WAY<br/>
+            RALEIGH, NC 27601
+          </div>
+        </div>
+      </div>
+
+      <section className="usage-snapshot">
+        <div className="snapshot-header">Your usage snapshot</div>
+        
+        <div className="plan-toggle-container">
+          <button className={`toggle-btn ${!isTOU ? 'active' : ''}`} onClick={() => setIsTOU(false)}>
+            Standard Residential (RES)
+          </button>
+          <button className={`toggle-btn ${isTOU ? 'active' : ''}`} onClick={() => setIsTOU(true)}>
+            Time-of-Use (R-TOU)
+          </button>
+        </div>
+
+        {/* CONDITIONAL INFO BOX FOR TOU */}
+        {isTOU && (
+          <div className="tou-info-box">
+            <strong>NC Time-of-Use Peak Hours:</strong>
+            <ul>
+              <li><strong>Summer (June-Sept):</strong> On-Peak is 1 p.m. – 7 p.m., Monday-Friday.</li>
+              <li><strong>Winter (Oct-May):</strong> On-Peak is 6 a.m. – 9 a.m., Monday-Friday.</li>
+              <li><strong>Off-Peak:</strong> All other hours, weekends, and holidays are discounted.</li>
+            </ul>
+          </div>
+        )}
+
+        <div className="slider-container">
+          <div className="usage-display">
+            <span className="kwh-label">Monthly Usage</span>
+            <span className="kwh-value">{usage} kWh</span>
+          </div>
+          <input 
+            type="range" min="100" max="5000" step="10"
+            value={usage} onChange={(e) => setUsage(Number(e.target.value))}
+          />
+        </div>
+      </section>
+
+      <section className="billing-details">
+        <div className="details-header">
+          Billing details - {isTOU ? 'Time-of-Use Service' : 'Residential Service'}
+        </div>
+        <table className="bill-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th className="rate-col">Current Rate</th>
+              <th>Current Amount</th>
+              <th className="rate-col">Proposed Rate</th>
+              <th>Proposed Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Basic Customer Charge</td>
+              <td className="rate-col">Fixed</td>
+              <td>${current.base}</td>
+              <td className="rate-col">Fixed</td>
+              <td>${proposed.base}</td>
+            </tr>
+            <tr>
+              <td>Energy Charge</td>
+              <td className="rate-col">@{activeRates.current.energy.toFixed(5)}</td>
+              <td>${current.energy}</td>
+              <td className="rate-col">@{activeRates.proposed.energy.toFixed(5)}</td>
+              <td>${proposed.energy}</td>
+            </tr>
+            <tr>
+              <td>Storm Recovery Charge</td>
+              <td className="rate-col">@{activeRates.current.storm.toFixed(5)}</td>
+              <td>${current.storm}</td>
+              <td className="rate-col">@{activeRates.proposed.storm.toFixed(5)}</td>
+              <td>${proposed.storm}</td>
+            </tr>
+            <tr>
+              <td>Summary of Rider Adjustments</td>
+              <td className="rate-col">Adjustable</td>
+              <td>${current.riders}</td>
+              <td className="rate-col">Adjustable</td>
+              <td>${proposed.riders}</td>
+            </tr>
+            <tr>
+              <td>Clean Energy Rider</td>
+              <td className="rate-col">Adjustable</td>
+              <td>${current.clean}</td>
+              <td className="rate-col">Adjustable</td>
+              <td>${proposed.clean}</td>
+            </tr>
+            <tr className="tax-row">
+              <td>Taxes (NC Sales Tax)</td>
+              <td className="rate-col">7.0%</td>
+              <td>${current.tax}</td>
+              <td className="rate-col">7.0%</td>
+              <td>${proposed.tax}</td>
+            </tr>
+            <tr className="total-row">
+              <td><strong>Total Estimated Charges</strong></td>
+              <td className="rate-col"></td>
+              <td><strong>${current.total}</strong></td>
+              <td className="rate-col"></td>
+              <td className="proposed-total"><strong>${proposed.total}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div className="impact-footer">
+        <div className="impact-text">
+          ESTIMATED MONTHLY INCREASE: <span>${(proposed.total - current.total).toFixed(2)}</span>
+        </div>
+      </div>
+
+      <footer className="regulatory-disclaimer">
+        <div className="disclaimer-title">Regulatory Notice & Disclaimer</div>
+        <p>
+          Proposed figures are based on NCUC Docket No. E-2 estimates[cite: 145]. 
+          Time-of-Use savings depend entirely on shifting heavy usage (laundry, HVAC, EV charging) to Off-Peak hours.
+        </p>
+      </footer>
+    </div>
+  );
+}
+
+export default App;

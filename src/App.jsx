@@ -4,20 +4,12 @@ import './App.css'
 
 function App() {
   const [usage, setUsage] = useState(1000);
-  const [isTOU, setIsTOU] = useState(false);
 
+  // Updated with 2026/2027 NCUC Filing Estimates for Duke Energy Progress (DEP)
   const RATES = {
-    standard: {
-      current: { base: 14.00, energy: 0.12119, storm: 0.00210, riderSum: 18.51, clean: 1.52 },
-      proposed: { base: 15.75, energy: 0.14420, storm: 0.00280, riderSum: 24.10, clean: 1.95 }
-    },
-    tou: {
-      current: { base: 14.00, energy: 0.10850, storm: 0.00210, riderSum: 16.20, clean: 1.52 },
-      proposed: { base: 15.75, energy: 0.12950, storm: 0.00280, riderSum: 21.40, clean: 1.95 }
-    }
+    current: { base: 14.00, energy: 0.12119, storm: 0.00210, riderSum: 18.51, clean: 1.52 },
+    proposed: { base: 15.75, energy: 0.14420, storm: 0.00280, riderSum: 24.10, clean: 1.95 }
   };
-
-  const activeRates = isTOU ? RATES.tou : RATES.standard;
 
   const getBillBreakdown = (config) => {
     const energyVal = usage * config.energy;
@@ -29,15 +21,15 @@ function App() {
       base: config.base.toFixed(2),
       energy: energyVal.toFixed(2),
       storm: stormVal.toFixed(2),
-      riders: config.riders ? config.riders.toFixed(2) : config.riderSum.toFixed(2),
+      riders: config.riderSum.toFixed(2),
       clean: config.clean.toFixed(2),
       tax: tax.toFixed(2),
       total: (subtotal + tax).toFixed(2)
     };
   };
 
-  const current = getBillBreakdown(activeRates.current);
-  const proposed = getBillBreakdown(activeRates.proposed);
+  const current = getBillBreakdown(RATES.current);
+  const proposed = getBillBreakdown(RATES.proposed);
 
   return (
     <div className="bill-container">
@@ -56,7 +48,7 @@ function App() {
 
       <section className="site-intro">
         <h1>NC Residential Rate Impact Tool</h1>
-        <div className="title-spacer"></div> {/* Space after title */}
+        <div className="title-spacer"></div>
         <p>
           Duke Energy Progress has proposed multi-year rate hikes to the <strong>NC Utilities Commission (NCUC)</strong>. 
           If approved, residential customers could see an average 18.5% increase by 2028.
@@ -68,43 +60,28 @@ function App() {
       </section>
 
       <section className="usage-snapshot">
-        <div className="snapshot-header">Your usage snapshot</div>
+        <div className="snapshot-header">Adjust Your Monthly Usage</div>
         
-        <div className="plan-toggle-container">
-          <button className={`toggle-btn ${!isTOU ? 'active' : ''}`} onClick={() => setIsTOU(false)}>
-            Standard Residential (RES)
-          </button>
-          <button className={`toggle-btn ${isTOU ? 'active' : ''}`} onClick={() => setIsTOU(true)}>
-            Time-of-Use (R-TOU)
-          </button>
-        </div>
-
-        {isTOU && (
-          <div className="tou-info-box">
-            <strong>NC Time-of-Use Peak Hours:</strong>
-            <ul>
-              <li><strong>Summer (June-Sept):</strong> On-Peak is 1 p.m. – 7 p.m., Mon-Fri.</li>
-              <li><strong>Winter (Oct-May):</strong> On-Peak is 6 a.m. – 9 a.m., Mon-Fri.</li>
-              <li><strong>Off-Peak:</strong> All other hours, weekends, and holidays are discounted.</li>
-            </ul>
-          </div>
-        )}
-
         <div className="slider-container">
           <div className="usage-display">
-            <span className="kwh-label">Monthly Usage</span>
+            <span className="kwh-label">Monthly Energy Usage</span>
             <span className="kwh-value">{usage} kWh</span>
           </div>
           <input 
             type="range" min="100" max="5000" step="10"
+            className="pronounced-slider"
             value={usage} onChange={(e) => setUsage(Number(e.target.value))}
           />
+          <div className="slider-labels">
+            <span>100 kWh</span>
+            <span>5000 kWh</span>
+          </div>
         </div>
       </section>
 
       <section className="billing-details">
         <div className="details-header">
-          Billing details - {isTOU ? 'Time-of-Use (R-TOU)' : 'Residential Service (RES)'}
+          Billing details - Residential Service (RES)
         </div>
         <table className="bill-table">
           <thead>
@@ -126,16 +103,16 @@ function App() {
             </tr>
             <tr>
               <td>Energy Charge</td>
-              <td className="rate-col">@{activeRates.current.energy.toFixed(5)}</td>
+              <td className="rate-col">@{RATES.current.energy.toFixed(5)}</td>
               <td>${current.energy}</td>
-              <td className="rate-col">@{activeRates.proposed.energy.toFixed(5)}</td>
+              <td className="rate-col">@{RATES.proposed.energy.toFixed(5)}</td>
               <td>${proposed.energy}</td>
             </tr>
             <tr>
               <td>Storm Recovery Charge</td>
-              <td className="rate-col">@{activeRates.current.storm.toFixed(5)}</td>
+              <td className="rate-col">@{RATES.current.storm.toFixed(5)}</td>
               <td>${current.storm}</td>
-              <td className="rate-col">@{activeRates.proposed.storm.toFixed(5)}</td>
+              <td className="rate-col">@{RATES.proposed.storm.toFixed(5)}</td>
               <td>${proposed.storm}</td>
             </tr>
             <tr>
@@ -180,7 +157,7 @@ function App() {
         <div className="disclaimer-title">Regulatory Notice & Disclaimer</div>
         <p>
           Figures based on NCUC Docket No. E-2 SUB 1380. Actual impacts vary 
-          by household behavior. Public hearings are scheduled across NC in Spring 2026.
+          by household behavior and final commission rulings.
         </p>
       </footer>
     </div>

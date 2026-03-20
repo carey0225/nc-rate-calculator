@@ -1,8 +1,8 @@
 :root {
   --duke-blue: #00598c;
   --bg-gray: #f4f4f4;
-  --text-dark: #1a1a1a; /* Darker for better contrast */
-  --text-muted: #444444; /* Darker than before */
+  --text-dark: #1a1a1a;
+  --text-muted: #444444;
 }
 
 body {
@@ -25,9 +25,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 25px 35px;
-  background: white;
   border-bottom: 4px solid var(--duke-blue);
-  color: var(--text-dark);
 }
 
 .bill-logo {
@@ -46,15 +44,11 @@ body {
   font-size: 32px;
 }
 
-/* Spacer requested by user */
-.title-spacer {
-  height: 20px;
-}
+.title-spacer { height: 20px; }
 
 .site-intro p {
   font-size: 1.05rem;
-  color: var(--text-dark);
-  font-weight: 500; /* Slightly thicker font weight */
+  font-weight: 500;
   line-height: 1.6;
 }
 
@@ -63,59 +57,131 @@ body {
   border-left: 4px solid #ffc107;
   padding: 15px;
   margin-top: 15px;
-  font-size: 1rem;
-  color: #222;
   font-weight: 500;
 }
 
+/* Pronounced Slider Styles */
+.usage-snapshot {
+  padding: 35px;
+  background-color: #fcfcfc;
+}
+
+.snapshot-header {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: var(--duke-blue);
+}
+
+.usage-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 15px;
+}
+
+.kwh-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--duke-blue);
+}
+
+.pronounced-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  background: #ddd;
+  outline: none;
+  margin: 20px 0;
+}
+
+/* Slider Handle (Chrome/Safari/Edge) */
+.pronounced-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--duke-blue);
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* Slider Handle (Firefox) */
+.pronounced-slider::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--duke-blue);
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
 /* Table Styles */
+.billing-details { padding: 40px 35px; }
+
+.details-header {
+  background: var(--duke-blue);
+  color: white;
+  padding: 12px 20px;
+  font-weight: bold;
+}
+
 .bill-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  color: var(--text-dark);
 }
 
 .bill-table th {
   text-align: left;
   background: #f8f9fa;
-  padding: 12px;
-  border-bottom: 2px solid #333; /* Darker border */
-  color: var(--text-dark);
-  font-weight: bold;
+  padding: 15px;
+  border-bottom: 2px solid #333;
 }
 
 .bill-table td {
-  padding: 12px;
+  padding: 15px;
   border-bottom: 1px solid #ddd;
   font-weight: 500;
 }
 
 .rate-col { 
   color: var(--text-muted); 
-  font-size: 0.9rem; 
-  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  font-family: monospace;
 }
 
-/* Red for the higher price - kept slightly dark for readability */
-.proposed-total { 
-  color: #b71c1c; 
-  font-weight: 900;
+.total-row { font-size: 1.2rem; }
+.proposed-total { color: #b71c1c; font-weight: 900; }
+
+/* Footer */
+.impact-footer {
+  background: var(--duke-blue);
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+.impact-text span {
+  font-size: 2.5rem;
+  font-weight: bold;
+  display: block;
 }
 
 .regulatory-disclaimer {
-  padding: 20px 35px;
+  padding: 25px 35px;
   font-size: 0.85rem;
-  color: #333; /* Darker disclaimer */
+  color: #333;
   background: #f1f1f1;
-}
-
-/* Buttons and Input */
-.toggle-btn {
-  font-size: 1rem;
-}
-
-.kwh-value {
-  font-weight: 800;
-  color: var(--duke-blue);
 }

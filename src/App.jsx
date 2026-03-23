@@ -95,6 +95,61 @@ function App() {
           </thead>
           <tbody>
             <tr>
+              <td>
+                <span className="tooltip-trigger" data-tooltip="The flat monthly fee to be a customer, regardless of how much power you use.">
+                  Basic Customer Charge
+                </span>
+              </td>
+              <td className="rate-col">Fixed</td>
+              <td>${current.base}</td>
+              <td className="rate-col">Fixed</td>
+              <td>${proposed.base}</td>
+            </tr>
+            <tr>
+              <td>
+                <span className="tooltip-trigger" data-tooltip="The cost for the actual electricity you consumed (measured in kWh).">
+                  Energy Charge
+                </span>
+              </td>
+              <td className="rate-col">@{RATES.current.energy.toFixed(5)}</td>
+              <td>${current.energy}</td>
+              <td className="rate-col">@{RATES.proposed.energy.toFixed(5)}</td>
+              <td>${proposed.energy}</td>
+            </tr>
+            <tr>
+              <td>
+                <span className="tooltip-trigger" data-tooltip="Covers the costs Duke spends to repair the grid after major storms/hurricanes.">
+                  Storm Recovery Charge
+                </span>
+              </td>
+              <td className="rate-col">@{RATES.current.storm.toFixed(5)}</td>
+              <td>${current.storm}</td>
+              <td className="rate-col">@{RATES.proposed.storm.toFixed(5)}</td>
+              <td>${proposed.storm}</td>
+            </tr>
+            <tr>
+              <td>
+                <span className="tooltip-trigger" data-tooltip="A collection of smaller fees for energy efficiency programs and grid updates.">
+                  Summary of Rider Adjustments
+                </span>
+              </td>
+              <td className="rate-col">Adjustable</td>
+              <td>${current.riders}</td>
+              <td className="rate-col">Adjustable</td>
+              <td>${proposed.riders}</td>
+            </tr>
+            <tr>
+              <td>
+                <span className="tooltip-trigger" data-tooltip="Funds mandated transitions to carbon-free energy sources like solar and wind.">
+                  Clean Energy Rider
+                </span>
+              </td>
+              <td className="rate-col">Adjustable</td>
+              <td>${current.clean}</td>
+              <td className="rate-col">Adjustable</td>
+              <td>${proposed.clean}</td>
+            </tr>
+            <tr>
               <td>Basic Customer Charge</td>
               <td className="rate-col">Fixed</td>
               <td>${current.base}</td>

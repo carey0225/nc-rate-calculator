@@ -183,4 +183,33 @@ function App() {
               <td className="rate-col">7.0%</td>
               <td>${proposed.tax}</td>
             </tr>
-            <tr className="total
+            <tr className="total-row">
+              <td><strong>Total Estimated Charges</strong></td>
+              <td className="rate-col"></td>
+              <td><strong>${current.total}</strong></td>
+              <td className="rate-col"></td>
+              <td className="proposed-total"><strong>${proposed.total}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      {/* Footer Result */}
+      <div className="impact-footer">
+        <div className="impact-text">
+          ESTIMATED MONTHLY INCREASE: <span>${(proposed.total - current.total).toFixed(2)}</span>
+        </div>
+      </div>
+
+      <footer className="regulatory-disclaimer">
+        <div className="disclaimer-title">Regulatory Notice & Disclaimer</div>
+        <p>
+          Calculated using NCUC 1,000 kWh standard bill benchmark ($165.66). 
+          Actual impacts vary. Public witness hearings are scheduled through April 2026.
+        </p>
+      </footer>
+    </div>
+  );
+}
+
+export default App;

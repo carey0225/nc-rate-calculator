@@ -117,7 +117,7 @@ function App() {
           <tbody>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="The flat monthly fee to be a customer, regardless of how much power you use.">
+                <span className="tooltip-trigger" data-tooltip="A fixed monthly fee independent of your energy use. It covers the essential costs of maintaining your service, including equipment maintenance, account management, and billing services.">
                   Basic Customer Charge
                 </span>
               </td>
@@ -128,7 +128,7 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="The cost for the actual electricity you consumed (measured in kWh).">
+                <span className="tooltip-trigger" data-tooltip="The cost for the specific amount of electricity you used this month, calculated in kilowatt-hours (kWh).">
                   Energy Charge
                 </span>
               </td>
@@ -139,7 +139,7 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="Covers the costs Duke spends to repair the grid after major weather events.">
+                <span className="tooltip-trigger" data-tooltip="This fee helps cover the repair costs from major weather events, such as Hurricane Helene. Spreading these costs over an extended period helps prevent sudden spikes in your bill and keeps your monthly rate predictable.">
                   Storm Recovery Charge
                 </span>
               </td>
@@ -150,7 +150,7 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="Includes Fuel, Energy Efficiency, and REPS riders that adjust annually based on usage.">
+                <span className="tooltip-trigger" data-tooltip="The Summary of Rider Adjustments cover costs such as: the variable cost of fuel which changes year to year from what is included in the base Energy Charge; the cost of demand-side management and energy efficiency (DSM/EE) programs; certain renewable energy costs; costs to assist low-income households to pay their electricity bill; and refunds of over-collections due to a reduction in income tax rates.">
                   Summary of Rider Adjustments
                 </span>
               </td>
@@ -161,7 +161,7 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="Funds mandated transitions to carbon-free energy sources like solar and wind.">
+                <span className="tooltip-trigger" data-tooltip="A charge that supports clean energy certificates and clean power initiatives specifically within North Carolina.">
                   Clean Energy Rider
                 </span>
               </td>

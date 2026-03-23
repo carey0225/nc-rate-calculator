@@ -5,20 +5,25 @@ import './App.css'
 function App() {
   const [usage, setUsage] = useState(1000);
 
-  // 2026/2027 NCUC Filing Estimates for Duke Energy Progress (DEP)
+  /**
+   * CALIBRATION LOGIC (NCUC 2026 Benchmark):
+   * Target: $165.66 for 1,000 kWh (including 7% NC Sales Tax)
+   * Math: $154.82 (Subtotal) * 1.07 = $165.66
+   * Breakdown: $14.00 (Base) + $121.19 (Energy) + $2.10 (Storm) + $16.01 (Riders) + $1.52 (Clean) = $154.82
+   */
   const RATES = {
     current: { 
       base: 14.00, 
       energy: 0.12119, 
       storm: 0.00210, 
-      riderSum: 20.21, // Adjusted to match $165.66 target
+      riderRate: 0.01601, // Scaled: $16.01 / 1000 kWh
       clean: 1.52 
     },
     proposed: { 
       base: 15.75, 
       energy: 0.14420, 
       storm: 0.00280, 
-      riderSum: 26.10, 
+      riderRate: 0.02410, 
       clean: 1.95 
     }
   };
@@ -26,14 +31,16 @@ function App() {
   const getBillBreakdown = (config) => {
     const energyVal = usage * config.energy;
     const stormVal = usage * config.storm;
-    const subtotal = config.base + energyVal + stormVal + config.riderSum + config.clean;
+    const ridersVal = usage * config.riderRate;
+    
+    const subtotal = config.base + energyVal + stormVal + ridersVal + config.clean;
     const tax = subtotal * 0.07;
     
     return {
       base: config.base.toFixed(2),
       energy: energyVal.toFixed(2),
       storm: stormVal.toFixed(2),
-      riders: config.riderSum.toFixed(2),
+      riders: ridersVal.toFixed(2),
       clean: config.clean.toFixed(2),
       tax: tax.toFixed(2),
       total: (subtotal + tax).toFixed(2)
@@ -45,7 +52,7 @@ function App() {
 
   return (
     <div className="bill-container">
-      {/* Header with Logo */}
+      {/* Header */}
       <div className="bill-header">
         <div className="brand">
           <img src={logo} alt="Duke Energy Progress Logo" className="bill-logo" />
@@ -59,24 +66,22 @@ function App() {
         </div>
       </div>
 
-      {/* Intro Text */}
+      {/* Intro */}
       <section className="site-intro">
         <h1>NC Residential Rate Impact Tool</h1>
         <div className="title-spacer"></div>
         <p>
           Duke Energy Progress has proposed multi-year rate hikes to the <strong>NC Utilities Commission (NCUC)</strong>. 
-          If approved, residential customers could see an average 18.5% increase by 2028.
+          This tool calculates your estimated impact based on the official 2026 typical bill benchmark.
         </p>
         <div className="intro-highlight">
-          This tool helps NC families visualize how these shifts—driven by grid modernization 
-          and data center demand—affect their specific monthly costs.
+          Typical NC Residential Bill (1,000 kWh): <strong>$165.66</strong>
         </div>
       </section>
 
-      {/* Pronounced Slider Section */}
+      {/* Slider Section */}
       <section className="usage-snapshot">
         <div className="snapshot-header">Adjust Your Monthly Usage</div>
-        
         <div className="slider-container">
           <div className="usage-display">
             <span className="kwh-label">Monthly Energy Usage</span>
@@ -94,7 +99,7 @@ function App() {
         </div>
       </section>
 
-      {/* Table with Tooltip Hover Effects */}
+      {/* Interactive Table */}
       <section className="billing-details">
         <div className="details-header">
           Billing details - Residential Service (RES)
@@ -134,7 +139,7 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="Covers the costs Duke spends to repair the grid after major storms/hurricanes.">
+                <span className="tooltip-trigger" data-tooltip="Covers the costs Duke spends to repair the grid after major weather events.">
                   Storm Recovery Charge
                 </span>
               </td>
@@ -145,13 +150,13 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="A collection of smaller fees for energy efficiency programs and grid updates.">
+                <span className="tooltip-trigger" data-tooltip="Includes Fuel, Energy Efficiency, and REPS riders that adjust annually based on usage.">
                   Summary of Rider Adjustments
                 </span>
               </td>
-              <td className="rate-col">Adjustable</td>
+              <td className="rate-col">@{RATES.current.riderRate.toFixed(5)}</td>
               <td>${current.riders}</td>
-              <td className="rate-col">Adjustable</td>
+              <td className="rate-col">@{RATES.proposed.riderRate.toFixed(5)}</td>
               <td>${proposed.riders}</td>
             </tr>
             <tr>
@@ -160,9 +165,9 @@ function App() {
                   Clean Energy Rider
                 </span>
               </td>
-              <td className="rate-col">Adjustable</td>
+              <td className="rate-col">Fixed</td>
               <td>${current.clean}</td>
-              <td className="rate-col">Adjustable</td>
+              <td className="rate-col">Fixed</td>
               <td>${proposed.clean}</td>
             </tr>
             <tr className="tax-row">
@@ -183,7 +188,7 @@ function App() {
         </table>
       </section>
 
-      {/* Highlight Footer */}
+      {/* Result Footer */}
       <div className="impact-footer">
         <div className="impact-text">
           ESTIMATED MONTHLY INCREASE: <span>${(proposed.total - current.total).toFixed(2)}</span>
@@ -193,9 +198,8 @@ function App() {
       <footer className="regulatory-disclaimer">
         <div className="disclaimer-title">Regulatory Notice & Disclaimer</div>
         <p>
-          Figures based on NCUC Docket No. E-2 SUB 1380. Actual impacts vary 
-          by household behavior and final commission rulings. Public hearings 
-          are scheduled across NC in 2026.
+          Figures based on NCUC Docket No. E-2 SUB 1380. The $165.66 baseline represents a typical residential 
+          bill for 1,000 kWh including tax. Public witness hearings are scheduled through April 2026.
         </p>
       </footer>
     </div>

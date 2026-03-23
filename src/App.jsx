@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import logo from './DukeEnergyLogo.png'
 import './App.css'
+import { Link } from 'react-router-dom'
 
 function App() {
   const [usage, setUsage] = useState(1000);
@@ -69,6 +70,9 @@ function App() {
       {/* Intro */}
       <section className="site-intro">
         <h1>NC Residential Rate Impact Tool</h1>
+        <Link to="/deep-dive" className="deep-dive-btn">
+    Understand the Unbundled Bill Components →
+        </Link>
         <div className="title-spacer"></div>
         <p>
           Duke Energy Progress has proposed multi-year rate hikes to the <strong>NC Utilities Commission (NCUC)</strong>. 

@@ -220,3 +220,33 @@ body {
   color: #333;
   background: #f1f1f1;
 }
+.back-link {
+  text-decoration: none;
+  color: var(--duke-blue);
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.deep-dive-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: var(--duke-blue);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.info-card {
+  background: #f9f9f9;
+  border-left: 5px solid var(--duke-blue);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.info-card h3 {
+  margin-top: 0;
+  color: var(--duke-blue);
+}

@@ -5,16 +5,15 @@ import './App.css';
 
 const DeepDive = () => {
   const data = [
-    { name: 'Fixed Production', value: 57.15, percent: '34%', covers: 'The operation, maintenance, and debt for building the power plants.', source: 'NCUC Docket E-2, Sub 1300' },
-    { name: 'Fuel & Variable O&M', value: 47.89, percent: '29%', covers: 'The actual cost of coal, natural gas, and uranium used to make power.', source: 'NCUC Docket E-2, Sub 1320' },
-    { name: 'Customer Costs', value: 28.11, percent: '17%', covers: 'Energy efficiency programs, clean energy (REPS), and storm recovery.', source: 'NCUC Annual Rider Adjustments' },
-    { name: 'Distribution', value: 24.26, percent: '15%', covers: 'Your local poles, wires, transformers, and billing/metering costs.', source: 'NCUC 2026 Infrastructure Report' },
-    { name: 'Transmission', value: 8.25, percent: '5%', covers: 'The "high-voltage highway" of large towers and lines that move power.', source: 'DEP 2025 COSS' },
+    { name: 'Fixed Production', value: 57.15, percent: '34%', covers: 'Power plant construction, debt, and fixed staffing.', source: 'NCUC Docket E-2, Sub 1300' },
+    { name: 'Fuel & Variable O&M', value: 47.89, percent: '29%', covers: 'Natural gas, coal, uranium, and consumable parts.', source: 'NCUC Docket E-2, Sub 1320' },
+    { name: 'Customer Costs', value: 28.11, percent: '17%', covers: 'Programs like EE/DSM, REPS, and Storm Recovery.', source: 'NCUC Annual Rider Adjustments' },
+    { name: 'Distribution', value: 24.26, percent: '15%', covers: 'Neighborhood lines, transformers, and billing.', source: 'NCUC 2026 Infrastructure Report' },
+    { name: 'Transmission', value: 8.25, percent: '5%', covers: 'High-voltage "highways" across the state.', source: 'DEP 2025 COSS' },
   ];
 
   const COLORS = ['#b84c4c', '#46a5af', '#587eb4', '#7d5ba1', '#8db357'];
 
-  // This function now correctly displays the percentage and uses a larger font
   const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, value, index }) => {
     const RADIAN = Math.PI / 180;
     const radius = outerRadius * 0.65; 
@@ -38,6 +37,7 @@ const DeepDive = () => {
         </div>
       </header>
 
+      {/* Visual Chart Section */}
       <section className="billing-details">
         <div className="details-header">Average Monthly Residential Bill Components</div>
         <div style={{ width: '100%', height: 450, marginTop: '20px' }}>
@@ -49,7 +49,7 @@ const DeepDive = () => {
                 cy="50%"
                 labelLine={false}
                 label={renderCustomizedLabel}
-                outerRadius={150} // Increased size slightly to accommodate larger font
+                outerRadius={150} 
                 stroke="none"
                 dataKey="value"
               >
@@ -60,6 +60,39 @@ const DeepDive = () => {
               <Legend layout="vertical" align="right" verticalAlign="middle" iconType="rect" />
             </PieChart>
           </ResponsiveContainer>
+        </div>
+      </section>
+
+      {/* NEW: Context & Definitions Section */}
+      <section className="site-intro" style={{ textAlign: 'left', marginBottom: '40px' }}>
+        <h2 style={{ color: 'var(--duke-blue)', borderBottom: '2px solid #eee', paddingBottom: '10px' }}>What are you paying for?</h2>
+        
+        <div style={{ marginBottom: '20px' }}>
+          <h4 style={{ margin: '10px 0 5px' }}>🏗️ Fixed Production (Generation)</h4>
+          <p style={{ fontSize: '0.95rem', margin: '0' }}>
+            Think of this as the "Mortgage" on power plants. Whether you turn on a light or not, Duke has to pay off the debt and maintenance costs for the nuclear, gas, and solar plants that keep the grid ready.
+          </p>
+        </div>
+
+        <div style={{ marginBottom: '20px' }}>
+          <h4 style={{ margin: '10px 0 5px' }}>🔥 Fuel & Variable O&M</h4>
+          <p style={{ fontSize: '0.95rem', margin: '0' }}>
+            This is the "Gas in the Tank." This cost fluctuates based on the global price of natural gas and coal. It is a direct pass-through, meaning Duke isn't supposed to make a profit on this specific line item.
+          </p>
+        </div>
+
+        <div style={{ marginBottom: '20px' }}>
+          <h4 style={{ margin: '10px 0 5px' }}>📜 Customer Costs (Riders)</h4>
+          <p style={{ fontSize: '0.95rem', margin: '0' }}>
+            This covers state-mandated programs. It includes <strong>REPS</strong> (Renewable Energy Portfolio Standards), energy efficiency rebates, and <strong>Storm Recovery</strong> (paying off past hurricane damage through securitized bonds).
+          </p>
+        </div>
+
+        <div style={{ marginBottom: '20px' }}>
+          <h4 style={{ margin: '10px 0 5px' }}>🌳 Distribution & Transmission</h4>
+          <p style={{ fontSize: '0.95rem', margin: '0' }}>
+            The physical logistics. <strong>Transmission</strong> moves power across the state on high-voltage lines, while <strong>Distribution</strong> handles the "last mile"—the poles and transformers in your neighborhood.
+          </p>
         </div>
       </section>
 

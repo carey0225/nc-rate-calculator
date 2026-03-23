@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Text } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 import './App.css';
 
 const DeepDive = () => {
@@ -12,12 +12,12 @@ const DeepDive = () => {
     { name: 'Transmission', value: 8.25, percent: '5%', covers: 'The "high-voltage highway" of large towers and lines that move power.', source: 'DEP 2025 COSS' },
   ];
 
-  // Colors closely matching the NCUC chart image
+  // Colors aligned with the NCUC functional cost chart
   const COLORS = ['#b84c4c', '#46a5af', '#587eb4', '#7d5ba1', '#8db357'];
 
   const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, value, percent }) => {
     const RADIAN = Math.PI / 180;
-    const radius = outerRadius * 0.7; // Position text inside the slice
+    const radius = outerRadius * 0.65; // Positions text inside the slice
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -49,8 +49,8 @@ const DeepDive = () => {
                 cy="50%"
                 labelLine={false}
                 label={renderCustomizedLabel}
-                outerRadius={130}
-                stroke="none" // Removes the white border between slices
+                outerRadius={135}
+                stroke="none"
                 dataKey="value"
               >
                 {data.map((entry, index) => (
@@ -86,7 +86,7 @@ const DeepDive = () => {
               </tr>
             ))}
           </tbody>
-        </tbody>
+        </table>
       </section>
 
       <footer className="regulatory-disclaimer">

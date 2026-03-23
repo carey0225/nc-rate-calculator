@@ -60,6 +60,54 @@ body {
   font-weight: 500;
 }
 
+/* Tooltip Styles */
+.tooltip-trigger {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dashed var(--duke-blue);
+  color: var(--text-dark);
+  display: inline-block;
+}
+
+.tooltip-trigger:after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  white-space: normal;
+  width: 200px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  pointer-events: none;
+}
+
+.tooltip-trigger:before {
+  content: '';
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #333;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.tooltip-trigger:hover:after,
+.tooltip-trigger:hover:before {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* Pronounced Slider Styles */
 .usage-snapshot {
   padding: 35px;
@@ -96,21 +144,8 @@ body {
   margin: 20px 0;
 }
 
-/* Slider Handle (Chrome/Safari/Edge) */
 .pronounced-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--duke-blue);
-  cursor: pointer;
-  border: 3px solid white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-/* Slider Handle (Firefox) */
-.pronounced-slider::-moz-range-thumb {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -184,55 +219,4 @@ body {
   font-size: 0.85rem;
   color: #333;
   background: #f1f1f1;
-}
-/* Tooltip Container */
-.tooltip-trigger {
-  position: relative;
-  cursor: help; /* Changes cursor to a question mark */
-  border-bottom: 1px dashed var(--duke-blue); /* Visual cue that it's hoverable */
-  color: var(--text-dark);
-  display: inline-block;
-}
-
-/* The Pop-up Box */
-.tooltip-trigger:after {
-  content: attr(data-tooltip); /* Pulls the text from the HTML attribute */
-  position: absolute;
-  bottom: 125%; /* Positions it above the text */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  white-space: normal; /* Allows text wrapping */
-  width: 200px; /* Width of the popup */
-  z-index: 100;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease-in-out;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  pointer-events: none;
-}
-
-/* The Little Triangle Arrow */
-.tooltip-trigger:before {
-  content: '';
-  position: absolute;
-  bottom: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: #333;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* Show on Hover */
-.tooltip-trigger:hover:after,
-.tooltip-trigger:hover:before {
-  opacity: 1;
-  visibility: visible;
 }

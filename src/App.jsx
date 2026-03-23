@@ -1,23 +1,22 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom' // Crucial for the second page
 import logo from './DukeEnergyLogo.png'
 import './App.css'
-import { Link } from 'react-router-dom'
 
 function App() {
   const [usage, setUsage] = useState(1000);
 
   /**
-   * CALIBRATION LOGIC (NCUC 2026 Benchmark):
+   * CALIBRATED RATES (NCUC 2026 Benchmark):
    * Target: $165.66 for 1,000 kWh (including 7% NC Sales Tax)
    * Math: $154.82 (Subtotal) * 1.07 = $165.66
-   * Breakdown: $14.00 (Base) + $121.19 (Energy) + $2.10 (Storm) + $16.01 (Riders) + $1.52 (Clean) = $154.82
    */
   const RATES = {
     current: { 
       base: 14.00, 
       energy: 0.12119, 
       storm: 0.00210, 
-      riderRate: 0.01601, // Scaled: $16.01 / 1000 kWh
+      riderRate: 0.01601, 
       clean: 1.52 
     },
     proposed: { 
@@ -67,17 +66,20 @@ function App() {
         </div>
       </div>
 
-      {/* Intro */}
+      {/* Intro Section */}
       <section className="site-intro">
         <h1>NC Residential Rate Impact Tool</h1>
-        <Link to="/deep-dive" className="deep-dive-btn">
-    Understand the Unbundled Bill Components →
-        </Link>
         <div className="title-spacer"></div>
         <p>
           Duke Energy Progress has proposed multi-year rate hikes to the <strong>NC Utilities Commission (NCUC)</strong>. 
-          This tool calculates your estimated impact based on the official 2026 typical bill benchmark.
+          Use the slider below to see how your specific monthly bill might change.
         </p>
+        
+        {/* New Button to the Deep Dive Page */}
+        <Link to="/deep-dive" className="deep-dive-btn">
+          Understand the Unbundled Bill Components →
+        </Link>
+        
         <div className="intro-highlight">
           Typical NC Residential Bill (1,000 kWh): <strong>$165.66</strong>
         </div>
@@ -103,7 +105,7 @@ function App() {
         </div>
       </section>
 
-      {/* Interactive Table */}
+      {/* Table Section */}
       <section className="billing-details">
         <div className="details-header">
           Billing details - Residential Service (RES)
@@ -121,7 +123,7 @@ function App() {
           <tbody>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="A fixed monthly fee independent of your energy use. It covers the essential costs of maintaining your service, including equipment maintenance, account management, and billing services.">
+                <span className="tooltip-trigger" data-tooltip="The flat monthly fee to be a customer, regardless of how much power you use.">
                   Basic Customer Charge
                 </span>
               </td>
@@ -132,7 +134,7 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="The cost for the specific amount of electricity you used this month, calculated in kilowatt-hours (kWh).">
+                <span className="tooltip-trigger" data-tooltip="The core cost for electricity generation and transmission.">
                   Energy Charge
                 </span>
               </td>
@@ -143,7 +145,7 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="This fee helps cover the repair costs from major weather events, such as Hurricane Helene. Spreading these costs over an extended period helps prevent sudden spikes in your bill and keeps your monthly rate predictable.">
+                <span className="tooltip-trigger" data-tooltip="Repays costs for grid repairs after major NC storms.">
                   Storm Recovery Charge
                 </span>
               </td>
@@ -154,7 +156,7 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="The Summary of Rider Adjustments cover costs such as: the variable cost of fuel which changes year to year from what is included in the base Energy Charge; the cost of demand-side management and energy efficiency (DSM/EE) programs; certain renewable energy costs; costs to assist low-income households to pay their electricity bill; and refunds of over-collections due to a reduction in income tax rates.">
+                <span className="tooltip-trigger" data-tooltip="Usage-based fees for fuel costs and energy efficiency programs.">
                   Summary of Rider Adjustments
                 </span>
               </td>
@@ -165,7 +167,7 @@ function App() {
             </tr>
             <tr>
               <td>
-                <span className="tooltip-trigger" data-tooltip="A charge that supports clean energy certificates and clean power initiatives specifically within North Carolina.">
+                <span className="tooltip-trigger" data-tooltip="Funds the transition to solar, wind, and carbon-free energy.">
                   Clean Energy Rider
                 </span>
               </td>
@@ -181,33 +183,4 @@ function App() {
               <td className="rate-col">7.0%</td>
               <td>${proposed.tax}</td>
             </tr>
-            <tr className="total-row">
-              <td><strong>Total Estimated Charges</strong></td>
-              <td className="rate-col"></td>
-              <td><strong>${current.total}</strong></td>
-              <td className="rate-col"></td>
-              <td className="proposed-total"><strong>${proposed.total}</strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      {/* Result Footer */}
-      <div className="impact-footer">
-        <div className="impact-text">
-          ESTIMATED MONTHLY INCREASE: <span>${(proposed.total - current.total).toFixed(2)}</span>
-        </div>
-      </div>
-
-      <footer className="regulatory-disclaimer">
-        <div className="disclaimer-title">Regulatory Notice & Disclaimer</div>
-        <p>
-          Figures based on NCUC Docket No. E-2 SUB 1380. The $165.66 baseline represents a typical residential 
-          bill for 1,000 kWh including tax. Public witness hearings are scheduled through April 2026.
-        </p>
-      </footer>
-    </div>
-  );
-}
-
-export default App;
+            <tr className="total

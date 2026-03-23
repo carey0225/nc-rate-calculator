@@ -5,7 +5,7 @@ import './App.css'
 function App() {
   const [usage, setUsage] = useState(1000);
 
-  // Updated with 2026/2027 NCUC Filing Estimates for Duke Energy Progress (DEP)
+  // 2026/2027 NCUC Filing Estimates for Duke Energy Progress (DEP)
   const RATES = {
     current: { base: 14.00, energy: 0.12119, storm: 0.00210, riderSum: 18.51, clean: 1.52 },
     proposed: { base: 15.75, energy: 0.14420, storm: 0.00280, riderSum: 24.10, clean: 1.95 }
@@ -33,6 +33,7 @@ function App() {
 
   return (
     <div className="bill-container">
+      {/* Header with Logo */}
       <div className="bill-header">
         <div className="brand">
           <img src={logo} alt="Duke Energy Progress Logo" className="bill-logo" />
@@ -46,6 +47,7 @@ function App() {
         </div>
       </div>
 
+      {/* Intro Text */}
       <section className="site-intro">
         <h1>NC Residential Rate Impact Tool</h1>
         <div className="title-spacer"></div>
@@ -59,6 +61,7 @@ function App() {
         </div>
       </section>
 
+      {/* Pronounced Slider Section */}
       <section className="usage-snapshot">
         <div className="snapshot-header">Adjust Your Monthly Usage</div>
         
@@ -79,6 +82,7 @@ function App() {
         </div>
       </section>
 
+      {/* Table with Tooltip Hover Effects */}
       <section className="billing-details">
         <div className="details-header">
           Billing details - Residential Service (RES)
@@ -149,41 +153,6 @@ function App() {
               <td className="rate-col">Adjustable</td>
               <td>${proposed.clean}</td>
             </tr>
-            <tr>
-              <td>Basic Customer Charge</td>
-              <td className="rate-col">Fixed</td>
-              <td>${current.base}</td>
-              <td className="rate-col">Fixed</td>
-              <td>${proposed.base}</td>
-            </tr>
-            <tr>
-              <td>Energy Charge</td>
-              <td className="rate-col">@{RATES.current.energy.toFixed(5)}</td>
-              <td>${current.energy}</td>
-              <td className="rate-col">@{RATES.proposed.energy.toFixed(5)}</td>
-              <td>${proposed.energy}</td>
-            </tr>
-            <tr>
-              <td>Storm Recovery Charge</td>
-              <td className="rate-col">@{RATES.current.storm.toFixed(5)}</td>
-              <td>${current.storm}</td>
-              <td className="rate-col">@{RATES.proposed.storm.toFixed(5)}</td>
-              <td>${proposed.storm}</td>
-            </tr>
-            <tr>
-              <td>Summary of Rider Adjustments</td>
-              <td className="rate-col">Adjustable</td>
-              <td>${current.riders}</td>
-              <td className="rate-col">Adjustable</td>
-              <td>${proposed.riders}</td>
-            </tr>
-            <tr>
-              <td>Clean Energy Rider</td>
-              <td className="rate-col">Adjustable</td>
-              <td>${current.clean}</td>
-              <td className="rate-col">Adjustable</td>
-              <td>${proposed.clean}</td>
-            </tr>
             <tr className="tax-row">
               <td>Taxes (NC Sales Tax)</td>
               <td className="rate-col">7.0%</td>
@@ -202,6 +171,7 @@ function App() {
         </table>
       </section>
 
+      {/* Highlight Footer */}
       <div className="impact-footer">
         <div className="impact-text">
           ESTIMATED MONTHLY INCREASE: <span>${(proposed.total - current.total).toFixed(2)}</span>
@@ -212,7 +182,8 @@ function App() {
         <div className="disclaimer-title">Regulatory Notice & Disclaimer</div>
         <p>
           Figures based on NCUC Docket No. E-2 SUB 1380. Actual impacts vary 
-          by household behavior and final commission rulings.
+          by household behavior and final commission rulings. Public hearings 
+          are scheduled across NC in 2026.
         </p>
       </footer>
     </div>

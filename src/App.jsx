@@ -7,8 +7,20 @@ function App() {
 
   // 2026/2027 NCUC Filing Estimates for Duke Energy Progress (DEP)
   const RATES = {
-    current: { base: 14.00, energy: 0.12119, storm: 0.00210, riderSum: 18.51, clean: 1.52 },
-    proposed: { base: 15.75, energy: 0.14420, storm: 0.00280, riderSum: 24.10, clean: 1.95 }
+    current: { 
+      base: 14.00, 
+      energy: 0.12119, 
+      storm: 0.00210, 
+      riderSum: 20.21, // Adjusted to match $165.66 target
+      clean: 1.52 
+    },
+    proposed: { 
+      base: 15.75, 
+      energy: 0.14420, 
+      storm: 0.00280, 
+      riderSum: 26.10, 
+      clean: 1.95 
+    }
   };
 
   const getBillBreakdown = (config) => {

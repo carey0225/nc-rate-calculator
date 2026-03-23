@@ -12,19 +12,19 @@ const DeepDive = () => {
     { name: 'Transmission', value: 8.25, percent: '5%', covers: 'The "high-voltage highway" of large towers and lines that move power.', source: 'DEP 2025 COSS' },
   ];
 
-  // Colors aligned with the NCUC functional cost chart
   const COLORS = ['#b84c4c', '#46a5af', '#587eb4', '#7d5ba1', '#8db357'];
 
-  const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, value, percent }) => {
+  // This function now correctly displays the percentage and uses a larger font
+  const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, value, index }) => {
     const RADIAN = Math.PI / 180;
-    const radius = outerRadius * 0.65; // Positions text inside the slice
+    const radius = outerRadius * 0.65; 
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
-      <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={11} fontWeight="bold">
+      <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={14} fontWeight="bold">
         {`$${value.toFixed(2)}`}
-        <tspan x={x} y={y + 14}>{(percent * 100).toFixed(0)}%</tspan>
+        <tspan x={x} y={y + 18}>{data[index].percent}</tspan>
       </text>
     );
   };
@@ -39,8 +39,8 @@ const DeepDive = () => {
       </header>
 
       <section className="billing-details">
-        <div className="details-header">Functional Cost Visualization (1,000 kWh)</div>
-        <div style={{ width: '100%', height: 400, marginTop: '20px' }}>
+        <div className="details-header">Average Monthly Residential Bill Components</div>
+        <div style={{ width: '100%', height: 450, marginTop: '20px' }}>
           <ResponsiveContainer>
             <PieChart>
               <Pie
@@ -49,7 +49,7 @@ const DeepDive = () => {
                 cy="50%"
                 labelLine={false}
                 label={renderCustomizedLabel}
-                outerRadius={135}
+                outerRadius={150} // Increased size slightly to accommodate larger font
                 stroke="none"
                 dataKey="value"
               >

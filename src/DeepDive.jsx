@@ -1,82 +1,86 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as ChartTooltip, Legend } from 'recharts';
 import './App.css';
 
 const DeepDive = () => {
+  // Data aligned with your provided image
+  const data = [
+    { name: 'Generation / Fixed Production', value: 57.15, percent: '34%', covers: 'The operation, maintenance, and debt for building the power plants themselves.', source: 'NCUC Docket E-2, Sub 1300' },
+    { name: 'Fuel & Variable O&M', value: 47.89, percent: '29%', covers: 'The actual cost of coal, natural gas, and uranium used to make power.', source: 'NCUC Docket E-2, Sub 1320' },
+    { name: 'Customer Costs', value: 28.11, percent: '17%', covers: 'Energy efficiency programs, clean energy (REPS), and storm recovery.', source: 'NCUC Annual Rider Adjustments' },
+    { name: 'Distribution', value: 24.26, percent: '15%', covers: 'Your local poles, wires, transformers, and the cost of billing/metering.', source: 'NCUC 2026 Infrastructure Report' },
+    { name: 'Transmission', value: 8.25, percent: '5%', covers: 'The "high-voltage highway" of large towers and lines that move power across the state.', source: 'DEP 2025 COSS' },
+  ];
+
+  const COLORS = ['#00598c', '#007bbd', '#44a1d3', '#88c5e9', '#cce9f9'];
+
   return (
     <div className="bill-container">
-      {/* Header with Back Navigation */}
       <header className="bill-header">
-        <div className="brand">
-          <Link to="/" className="back-link">← Back to Bill Estimator</Link>
-          <h1 style={{ color: 'var(--duke-blue)', marginTop: '10px' }}>
-            Unbundled Bill Deep Dive
-          </h1>
-        </div>
+        <Link to="/" className="back-link">← Back to Estimator</Link>
+        <h1 style={{ color: 'var(--duke-blue)' }}>DEP Unbundled Cost Analysis</h1>
       </header>
 
-      {/* Educational Intro */}
-      <section className="site-intro">
-        <h2>What is "Unbundling"?</h2>
-        <p>
-          Historically, your electric bill was one flat rate per kWh. In 2023, the 
-          <strong> NC Utilities Commission (NCUC)</strong> moved to an unbundled 
-          structure. This forces the utility to show exactly which costs are 
-          for generation versus state-mandated policy goals.
-        </p>
+      {/* Visual Pie Chart Section */}
+      <section className="billing-details">
+        <div className="details-header">Cost Allocation Visualization</div>
+        <div style={{ width: '100%', height: 350, marginTop: '20px' }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={data}
+                innerRadius={60}
+                outerRadius={100}
+                paddingAngle={5}
+                dataKey="value"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <ChartTooltip formatter={(value) => `$${value.toFixed(2)}`} />
+              <Legend verticalAlign="bottom" height={36}/>
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
       </section>
 
-      {/* The Three Buckets of Your Bill */}
-      <section className="billing-details" style={{ padding: '20px 35px' }}>
-        
-        <div className="info-card">
-          <h3>⚡ 1. Base Generation & Transmission</h3>
-          <p>
-            This is the "core" of your bill. It pays for the fuel-agnostic infrastructure: 
-            the power plants, high-voltage lines, and the workers who maintain them. 
-            On your calculator, this is the <strong>Energy Charge</strong>.
-          </p>
-        </div>
-
-        <div className="info-card">
-          <h3>📊 2. The Summary of Rider Adjustments</h3>
-          <p>
-            Riders are "add-ons" that change more frequently than base rates. 
-            By unbundling them, you can see how much you pay for:
-          </p>
-          <ul style={{ lineHeight: '1.8' }}>
-            <li><strong>Fuel Rider:</strong> The fluctuating cost of natural gas and coal.</li>
-            <li><strong>EE/DSM Rider:</strong> Funds energy efficiency rebates (like LED bulb or HVAC programs).</li>
-            <li><strong>REPS Rider:</strong> Helps Duke meet NC's Renewable Energy Portfolio Standards.</li>
-          </ul>
-        </div>
-
-        <div className="info-card">
-          <h3>🌪️ 3. Storm Recovery & Clean Energy</h3>
-          <p>
-            These are specific policy-driven riders. <strong>Storm Recovery</strong> pays 
-            off the debt from past hurricanes (securitization), while the 
-            <strong>Clean Energy Rider</strong> directly funds the 2035 Carbon Plan 
-            requirements for solar and nuclear expansion.
-          </p>
-        </div>
-
+      {/* Detailed Table with Popups */}
+      <section className="billing-details" style={{ paddingTop: '0' }}>
+        <div className="details-header">DEP 1,000 kWh Monthly Breakdown</div>
+        <table className="bill-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Monthly Cost</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td>
+                  <span className="tooltip-trigger" data-tooltip={item.covers}>
+                    {item.name}
+                  </span>
+                </td>
+                <td>${item.value.toFixed(2)}</td>
+                <td>{item.percent}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
 
-      {/* Footer / Call to Action */}
-      <div className="impact-footer">
-        <p style={{ fontSize: '1.1rem' }}>
-          Understanding these line items helps NC residents participate in 
-          <strong> Public Witness Hearings</strong> regarding the 2026 Rate Case.
-        </p>
-      </div>
-
+      {/* Sources Footer */}
       <footer className="regulatory-disclaimer">
-        <div className="disclaimer-title">Technical Data Sources</div>
-        <p>
-          Data derived from Duke Energy Progress Schedule RES-37 and NCUC Docket E-2 Sub 1380. 
-          Rider rates are subject to annual "true-up" proceedings.
-        </p>
+        <div className="disclaimer-title">Official Sources & Dockets</div>
+        <ul style={{ fontSize: '0.8rem', paddingLeft: '20px' }}>
+          {data.map((item, index) => (
+            <li key={index}><strong>{item.name}:</strong> {item.source}</li>
+          ))}
+        </ul>
       </footer>
     </div>
   );

@@ -250,3 +250,240 @@ body {
   margin-top: 0;
   color: var(--duke-blue);
 }
+/* Container & Background */
+.bill-page-bg {
+  background-color: #f4f7f9;
+  min-height: 100vh;
+  padding: 40px 20px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.official-bill-container {
+  background: white;
+  width: 100%;
+  max-width: 850px;
+  padding: 40px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-top: 6px solid #00598c; /* Duke Blue Top Border */
+}
+
+/* Header Section */
+.bill-top-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.main-logo {
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.contact-info {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.contact-info span {
+  display: block;
+}
+
+.account-details-box {
+  text-align: right;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Title & Intro */
+.bill-title-bar {
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+}
+
+.bill-title-bar h2 {
+  color: #00598c;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.instruction-text {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Slider Section */
+.usage-control-section {
+  background: #fdfdfd;
+  border: 1px solid #eee;
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.usage-focus {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.usage-focus .label {
+  font-weight: 600;
+  color: #00598c;
+}
+
+.usage-focus .value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00598c;
+}
+
+.bill-slider {
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 5px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.bill-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  background: #00598c;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.slider-bounds {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 10px;
+}
+
+/* The Data Table */
+.official-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.blue-section-header {
+  background-color: #00598c;
+  color: white;
+}
+
+.blue-section-header th {
+  padding: 12px;
+  text-align: left;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sub-header-row th {
+  background-color: #f8f8f8;
+  padding: 10px;
+  font-size: 0.8rem;
+  color: #444;
+  border-bottom: 2px solid #ddd;
+}
+
+.official-data-table td {
+  padding: 12px 10px;
+  border-bottom: 1px dashed #ccc; /* Matches the dashed look in the bill */
+  font-size: 0.9rem;
+}
+
+.total-row-highlight {
+  background-color: #f0f4f7;
+}
+
+.total-row-highlight td {
+  border-bottom: none;
+  padding: 18px 10px;
+}
+
+.grand-total-label {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.current-total {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.proposed-total {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #d9534f; /* Highlight the increase in red */
+}
+
+/* Footer Navigation */
+.bill-footer-nav {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.footer-link-box {
+  display: inline-block;
+  background: #00598c;
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.footer-link-box:hover {
+  background: #003e63;
+}
+/* Tab Navigation Styles */
+.top-nav-tabs {
+  display: flex;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 20px;
+  background: #f8f9fa;
+}
+
+.nav-tab {
+  flex: 1;
+  text-align: center;
+  padding: 15px 10px;
+  text-decoration: none;
+  color: #666;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.nav-tab:hover {
+  background: #f0f0f0;
+  color: #00598c;
+}
+
+.nav-tab.active {
+  color: #00598c;
+  border-bottom: 3px solid #00598c;
+  background: #fff;
+}
+
+/* Ensure the official-bill-container has no top padding so tabs sit flush */
+.official-bill-container {
+  padding-top: 0 !important;
+  overflow: hidden;
+}

@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import ReactGA from 'react-ga4';
 import './index.css';
 
-// We removed <BrowserRouter> from here because it is now inside App.jsx
+// Initialize Google Analytics 4 with your Measurement ID
+const MEASUREMENT_ID = "G-N8F8BMCNMG";
+ReactGA.initialize(MEASUREMENT_ID);
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
 );

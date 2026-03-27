@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom'; // Removed Router from here
+import ReactGA from 'react-ga4';
 import Navbar from './Navbar'; 
 import DeepDive from './DeepDive';
-// 1. ADD THIS IMPORT
 import TableauPage from './TableauPage'; 
 import './App.css';
+
+// --- ANALYTICS TRACKER COMPONENT ---
+const AnalyticsTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.send({ 
+      hitType: "pageview", 
+      page: location.pathname + location.search 
+    });
+  }, [location]);
+
+  return null;
+};
 
 const Home = () => {
   const [utility, setUtility] = useState('DEP'); 
@@ -81,9 +95,9 @@ const Home = () => {
 
   const getDynamicDisclaimer = () => {
     const disclaimers = {
-      standard: "Estimates based on flat-rate volumetric charges. This remains the baseline for most residential customer classes under current NCUC general rate cases.",
-      tou: `Technical Note: The energy charge ($${selectedRates.current.energy.toFixed(5)}) represents a Load-Weighted Average. Actual billing is bifurcated across the On-Peak, Off-Peak, and Discount periods shown in the rate component table.`,
-      flex: "Pilot Program Notice: Flex Savings calculations incorporate a higher fixed Basic Facilities Charge. Savings are highly dependent on avoiding coincident peak demand and utilizing winter discount windows."
+      standard: "Estimates based on flat-rate volumetric charges. This remains the baseline for most residential customer classes.",
+      tou: `Technical Note: The energy charge ($${selectedRates.current.energy.toFixed(5)}) represents a Load-Weighted Average.`,
+      flex: "Pilot Program Notice: Flex Savings calculations incorporate a higher fixed Basic Facilities Charge."
     };
     return disclaimers[rateType] || disclaimers.standard;
   };
@@ -107,13 +121,11 @@ const Home = () => {
     <div className="bill-page-bg">
       <div className="official-bill-container">
         <Navbar />
-
         <div className="bill-title-bar" style={{ marginTop: '20px', textAlign: 'center' }}>
           <h2 style={{ color: '#00598c', marginBottom: '5px' }}>NC Residential Rate Impact Tool</h2>
           <p style={{ color: '#666', fontSize: '0.9rem' }}>Projected 2026 Billing Impacts</p>
         </div>
 
-        {/* PROVIDER TOGGLE */}
         <section style={{ textAlign: 'center', padding: '20px 0', borderBottom: '1px solid #eee', marginBottom: '20px' }}>
           <div style={{ display: 'inline-flex', backgroundColor: '#f0f0f0', padding: '5px', borderRadius: '8px' }}>
             {['DEP', 'DEC'].map((u) => (
@@ -129,7 +141,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* RATE SCHEDULE SELECTION */}
         <section style={{ padding: '0 20px 20px', textAlign: 'center' }}>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
             {Object.keys(rateSchedules).map((key) => (
@@ -144,7 +155,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* USAGE SLIDER */}
         <section className="usage-control-section" style={{ padding: '10px 20px 20px', backgroundColor: '#f9f9f9', borderRadius: '8px', margin: '0 20px 25px' }}>
           <div className="usage-focus">
             <span className="label">Monthly Energy Usage</span>
@@ -184,52 +194,39 @@ const Home = () => {
             </tfoot>
           </table>
 
-         {/* DYNAMIC RATE COMPONENT TABLE */}
-<div style={{ marginTop: '30px', padding: '0 10px' }}>
-  <h4 style={{ color: '#00598c', marginBottom: '10px', fontSize: '0.95rem', borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>
-    Schedule {rateType.toUpperCase()} Detail: {utility}
-  </h4>
-  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', backgroundColor: '#fff' }}>
-    <thead>
-      <tr style={{ borderBottom: '2px solid #00598c', color: '#666' }}>
-        {/* Added textAlign: 'center' to headers */}
-        <th style={{ padding: '8px', textAlign: 'center' }}>Period</th>
-        <th style={{ padding: '8px', textAlign: 'center' }}>Definition</th>
-        <th style={{ padding: '8px', textAlign: 'center' }}>Actual Rate (approx.)</th>
-      </tr>
-    </thead>
-    <tbody>
-      {selectedRates.components.map((comp, index) => (
-        <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
-          {/* Added textAlign: 'center' to data cells */}
-          <td style={{ padding: '8px', fontWeight: 'bold', textAlign: 'center' }}>{comp.period}</td>
-          <td style={{ padding: '8px', textAlign: 'center' }}>{comp.definition}</td>
-          <td style={{ padding: '8px', textAlign: 'center' }}>{comp.rate}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-
-          <div style={{ marginTop: '30px', backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', borderLeft: '4px solid #00598c', textAlign: 'left' }}>
-               <p style={{ fontSize: '0.85rem', color: '#333', margin: 0, lineHeight: '1.5' }}>
-                <strong>{rateType.toUpperCase()} Analysis:</strong> {getDynamicDisclaimer()}
-              </p>
+          <div style={{ marginTop: '30px', padding: '0 10px' }}>
+            <h4 style={{ color: '#00598c', marginBottom: '10px', fontSize: '0.95rem', borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>
+              Schedule {rateType.toUpperCase()} Detail: {utility}
+            </h4>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', backgroundColor: '#fff' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid #00598c', color: '#666' }}>
+                  <th style={{ padding: '8px', textAlign: 'center' }}>Period</th>
+                  <th style={{ padding: '8px', textAlign: 'center' }}>Definition</th>
+                  <th style={{ padding: '8px', textAlign: 'center' }}>Actual Rate (approx.)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedRates.components.map((comp, index) => (
+                  <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
+                    <td style={{ padding: '8px', fontWeight: 'bold', textAlign: 'center' }}>{comp.period}</td>
+                    <td style={{ padding: '8px', textAlign: 'center' }}>{comp.definition}</td>
+                    <td style={{ padding: '8px', textAlign: 'center' }}>{comp.rate}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fffbe6', borderRadius: '4px', border: '1px solid #ffe58f', textAlign: 'left' }}>
-            <p style={{ fontSize: '0.82rem', color: '#856404', margin: 0, lineHeight: '1.5' }}>
-              <strong>Important Notice:</strong> These figures are for estimation purposes only. Your actual monthly bill is influenced by 
-              personal habits, living conditions, and household energy efficiency. For advanced schedules (TOU and Flex), 
-              the total cost is highly dependent on <em>how and when</em> energy is used. Factors such as extreme weather, 
-              appliance age, and coincident peak demand during high-stress grid periods will result in significant variations 
-              from these estimates.
+          <div style={{ marginTop: '30px', backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', borderLeft: '4px solid #00598c', textAlign: 'left' }}>
+            <p style={{ fontSize: '0.85rem', color: '#333', margin: 0, lineHeight: '1.5' }}>
+              <strong>{rateType.toUpperCase()} Analysis:</strong> {getDynamicDisclaimer()}
             </p>
           </div>
 
           <footer style={{ marginTop: '40px', padding: '20px', borderTop: '1px solid #eee' }}>
             <p style={{ fontSize: '0.7rem', color: '#999', textAlign: 'center', maxWidth: '800px', margin: '0 auto', lineHeight: '1.4' }}>
-              <strong>Regulatory Disclosure:</strong> Projections derived from NCUC Docket Nos. E-2 Sub 1300/1320 and E-7 Sub 1330. All values reflect Step 3 MYRP adjustments effective 2026.
+              <strong>Regulatory Disclosure:</strong> Projections derived from NCUC Docket Nos. E-2 Sub 1300/1320 and E-7 Sub 1330.
             </p>
           </footer>
         </div>
@@ -238,16 +235,17 @@ const Home = () => {
   );
 };
 
+// --- APP COMPONENT ---
 function App() {
   return (
-    <Router>
+    <>
+      <AnalyticsTracker /> {/* Track all routes */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/deep-dive" element={<DeepDive />} />
-        {/* CHANGE THIS FROM /tableau TO /data */}
         <Route path="/data" element={<TableauPage />} /> 
       </Routes>
-    </Router>
+    </>
   );
 }
 

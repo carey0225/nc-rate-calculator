@@ -1,176 +1,167 @@
-import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import Navbar from './Navbar'; 
+import React, { useState } from 'react';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import Navbar from './Navbar';
 import './App.css';
 
 const DeepDive = () => {
-  const data = [
-    { name: 'Fixed Production', value: 57.15, percent: '34%', source: 'North Carolina Utilities Commission. (2025). Order Accepting Stipulation and Granting General Rate Increase. Docket No. E-2, Sub 1300.' },
-    { name: 'Fuel & Variable O&M', value: 47.89, percent: '29%', source: 'Duke Energy Progress. (2026). Annual Fuel and Fuel-Related Charge Adjustment. Docket No. E-2, Sub 1320.' },
-    { name: 'Customer Costs', value: 28.11, percent: '17%', source: 'NCUC Annual Rider Adjustments. Consolidated Schedule of Residential Rider Adjustments (REPS, EE, and Storm Recovery).' },
-    { name: 'Distribution', value: 24.26, percent: '15%', source: 'NCUC 2026 Infrastructure Report. Multi-Year Rate Plan Grid Improvement Filings.' },
-    { name: 'Transmission', value: 8.25, percent: '5%', source: 'Duke Energy Progress. (2025). Cost of Service Study (COSS) Functionalization.' },
-  ];
+  const [activeUtility, setActiveUtility] = useState('DEP');
 
-  const COLORS = ['#b84c4c', '#46a5af', '#587eb4', '#7d5ba1', '#8db357'];
-
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div style={{ 
-          backgroundColor: '#fff', padding: '8px 12px', border: '1px solid #ccc', 
-          borderRadius: '4px', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)'
-        }}>
-          <p style={{ margin: 0, fontWeight: 'bold', color: '#00598c' }}>{payload[0].name}</p>
-        </div>
-      );
+  const utilityData = {
+    DEP: {
+      total: 165.66,
+      fullName: "Duke Energy Progress",
+      chart: [
+        { name: 'Fuel & Variable O&M', value: 47.89, percentage: '29%', fill: '#00598c', bg: '#f4faff', detail: 'Actual cost of coal, gas, and uranium used to generate power.' },
+        { name: 'Transmission', value: 8.25, percentage: '5%', fill: '#8db357', bg: '#f6fff4', detail: 'The "high-voltage highway" of large towers and lines.' },
+        { name: 'Distribution', value: 24.26, percentage: '15%', fill: '#46a5af', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing ($14 fixed + $25 usage).' },
+        { name: 'Generation / Fixed Prod', value: 57.15, percentage: '34%', fill: '#e67e22', bg: '#fff9f4', detail: 'Operation, maintenance, and debt for building power plants.' },
+        { name: 'Customer Costs', value: 28.11, percentage: '17%', fill: '#666', bg: '#f8f9fa', detail: 'Energy efficiency, clean energy (REPS), and storm recovery.' },
+      ]
+    },
+    DEC: {
+      total: 134.34,
+      fullName: "Duke Energy Carolinas",
+      chart: [
+        { name: 'Fuel & Variable O&M', value: 29.25, percentage: '22%', fill: '#00598c', bg: '#f4faff', detail: 'Actual cost of coal, gas, and uranium used to generate power.' },
+        { name: 'Transmission', value: 15.43, percentage: '11%', fill: '#8db357', bg: '#f6fff4', detail: 'The "high-voltage highway" of large towers and lines.' },
+        { name: 'Distribution', value: 32.71, percentage: '24%', fill: '#46a5af', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing ($14 fixed + $25 usage).' },
+        { name: 'Generation / Fixed Prod', value: 42.55, percentage: '32%', fill: '#e67e22', bg: '#fff9f4', detail: 'Operation, maintenance, and debt for building power plants.' },
+        { name: 'Customer Costs', value: 14.40, percentage: '11%', fill: '#666', bg: '#f8f9fa', detail: 'Energy efficiency, clean energy (REPS), and storm recovery.' },
+      ]
     }
-    return null;
   };
 
-  const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, value, index }) => {
-    const RADIAN = Math.PI / 180;
-    const radius = outerRadius * 0.65; 
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={14} fontWeight="bold" pointerEvents="none">
-        {`$${value.toFixed(2)}`}
-        <tspan x={x} y={y + 18}>{data[index].percent}</tspan>
-      </text>
-    );
-  };
+  const currentData = utilityData[activeUtility];
 
   return (
     <div className="bill-page-bg">
-      <div className="official-bill-container">
+      <div className="official-bill-container" style={{ maxWidth: '1100px' }}>
         <Navbar />
 
-        <div className="bill-title-bar" style={{ padding: '20px' }}>
-          <h2 style={{ color: '#00598c' }}>Unbundled Bill Components</h2>
-          <p style={{ color: '#666', marginTop: '10px' }}>Analyzing the core costs that make up a typical residential bill.</p>
-        </div>
+        {/* SECTION 1: HEADER & INTRO */}
+        <header style={{ padding: '40px 20px', textAlign: 'center' }}>
+          <h1 style={{ color: '#00598c', fontSize: '2.4rem', marginBottom: '15px' }}>Unbundling Your Energy Dollar</h1>
+          <p style={{ color: '#444', fontSize: '1.1rem', maxWidth: '850px', margin: '0 auto', lineHeight: '1.7' }}>
+            Most people only see the bottom line on their monthly statement. But behind that total is a complex web of costs 
+            required to keep North Carolina powered 24/7. This page <strong>unbundles</strong> the 2026 rate projections, 
+            separating the cost of fuel from the infrastructure that delivers it.
+          </p>
 
-        <section className="chart-section" style={{ margin: '10px 0', padding: '0 20px' }}>
-          <div className="blue-section-header" style={{ padding: '10px', color: 'white', fontWeight: 'bold' }}>
-            Average Monthly Residential Bill Components
-          </div>
-          
-          <div style={{ width: '100%', height: 450, marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Tooltip content={<CustomTooltip />} />
-                <Pie
-                  data={data}
-                  cx="50%" cy="50%"
-                  labelLine={false}
-                  label={renderCustomizedLabel}
-                  outerRadius={160}
-                  stroke="#fff" strokeWidth={2}
-                  dataKey="value"
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} style={{ cursor: 'pointer', outline: 'none' }} />
-                  ))}
-                </Pie>
-                <Legend layout="vertical" verticalAlign="middle" align="right" iconType="rect" wrapperStyle={{ paddingLeft: '40px', right: 0 }} />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </section>
-
-        {/* TECHNICAL COMPONENT ANALYSIS SECTION */}
-        <section className="definitions-section" style={{ textAlign: 'left', marginBottom: '40px', padding: '0 20px' }}>
-          <h3 style={{ color: '#00598c', borderBottom: '2px solid #eee', paddingBottom: '10px', fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            Functional Cost Allocation
-          </h3>
-          
-          <div style={{ marginBottom: '25px' }}>
-            <h4 style={{ margin: '10px 0 5px', color: '#333' }}>🏗️ Fixed Production & Capacity</h4>
-            <p style={{ fontSize: '0.9rem', margin: '0', color: '#444', lineHeight: '1.5' }}>
-              Represents the <strong>Rate Base</strong> requirements for generation assets. This includes depreciation, return on equity (ROE), and fixed Operation & Maintenance (O&M) expenses for nuclear, thermal, and utility-scale renewable portfolios. These costs are functionalized as demand-related and allocated based on coincidental peak contributions.
-            </p>
-          </div>
-
-          <div style={{ marginBottom: '25px' }}>
-            <h4 style={{ margin: '10px 0 5px', color: '#333' }}>🔥 Variable Fuel & Purchased Power</h4>
-            <p style={{ fontSize: '0.9rem', margin: '0', color: '#444', lineHeight: '1.5' }}>
-              Accounts for the <strong>Marginal Cost of Energy (MCOE)</strong>. This includes FERC Account 501 (Fuel) and Account 555 (Purchased Power). In North Carolina, these are non-bypassable, volumetric pass-through charges adjusted annually via the Fuel Rider, subject to a true-up mechanism with no utility markup.
-            </p>
-          </div>
-
-          <div style={{ marginBottom: '25px' }}>
-            <h4 style={{ margin: '10px 0 5px', color: '#333' }}>📜 Regulatory Riders & Programs</h4>
-            <p style={{ fontSize: '0.9rem', margin: '0', color: '#444', lineHeight: '1.5' }}>
-              Functionalized costs associated with <strong>Demand Side Management (DSM)</strong>, Energy Efficiency (EE), and Renewable Energy Portfolio Standards (REPS). This category also includes securitized costs for Storm Recovery and Clean Energy Transition components as authorized under HB 951.
-            </p>
-          </div>
-
-          <div style={{ marginBottom: '25px' }}>
-            <h4 style={{ margin: '10px 0 5px', color: '#333' }}>🏘️ Distribution System Operations</h4>
-            <p style={{ fontSize: '0.9rem', margin: '0', color: '#444', lineHeight: '1.5' }}>
-              Costs associated with the <strong>low-voltage delivery system</strong> (sub-transmission to meter). This encompasses FERC Accounts 580–598, including line transformers, services, and customer-weighted allocations for billing, load research, and advanced metering infrastructure (AMI).
-            </p>
-          </div>
-
-          <div style={{ marginBottom: '25px' }}>
-            <h4 style={{ margin: '10px 0 5px', color: '#333' }}>🛣️ Transmission & Bulk Power</h4>
-            <p style={{ fontSize: '0.9rem', margin: '0', color: '#444', lineHeight: '1.5' }}>
-              Refers to high-voltage system costs (typically 100kV+) required to move bulk power from generation nodes to load centers. These costs are primarily determined by <strong>Open Access Transmission Tariff (OATT)</strong> rates and integrated resource planning (IRP) requirements for grid stability.
-            </p>
-          </div>
-        </section>
-
-        {/* DATA SOURCE LIST WITH NEW TITLE */}
-        <section style={{ 
-          marginTop: '60px', 
-          padding: '40px 60px', 
-          borderTop: '1px solid #eee',
-          backgroundColor: '#fafafa'
-        }}>
-          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-            <h3 style={{ 
-              fontSize: '0.9rem', 
-              color: '#333', 
-              textTransform: 'uppercase', 
-              letterSpacing: '1.2px',
-              marginBottom: '30px',
-              textAlign: 'left'
-            }}>
-              Data Sources
-            </h3>
-
-            {data.map((item, index) => (
-              <div key={index} style={{ 
-                marginBottom: '16px', 
-                paddingLeft: '15px', 
-                borderLeft: '2px solid #00598c',
-                lineHeight: '1.4'
-              }}>
-                <span style={{ 
-                  display: 'block', 
-                  fontWeight: 'bold', 
-                  fontSize: '0.75rem', 
-                  color: '#00598c', 
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  marginBottom: '2px' 
-                }}>
-                  {item.name}
-                </span>
-                <span style={{ 
-                  display: 'block', 
-                  fontSize: '0.85rem', 
-                  color: '#555', 
-                  fontStyle: 'italic' 
-                }}>
-                  {item.source}
-                </span>
-              </div>
+          {/* UTILITY TOGGLE */}
+          <div style={{ marginTop: '30px', display: 'inline-flex', backgroundColor: '#f0f0f0', padding: '5px', borderRadius: '8px' }}>
+            {['DEP', 'DEC'].map((u) => (
+              <button 
+                key={u} 
+                onClick={() => setActiveUtility(u)} 
+                style={{
+                  padding: '12px 35px', borderRadius: '6px', border: 'none',
+                  backgroundColor: activeUtility === u ? '#00598c' : 'transparent',
+                  color: activeUtility === u ? 'white' : '#555', cursor: 'pointer',
+                  fontWeight: 'bold', fontSize: '0.95rem', transition: 'all 0.2s'
+                }}
+              >
+                {utilityData[u].fullName}
+              </button>
             ))}
           </div>
+        </header>
+
+        {/* SECTION 2: THE DONUT CHART */}
+        <section style={{ padding: '0 20px' }}>
+          <div style={{ width: '100%', backgroundColor: '#fff', padding: '40px', borderRadius: '15px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', border: '1px solid #eee', marginBottom: '40px', position: 'relative' }}>
+            <h3 style={{ color: '#00598c', textAlign: 'center', marginBottom: '5px' }}>2026 Monthly Cost of Service: {activeUtility}</h3>
+            <p style={{ textAlign: 'center', fontSize: '1rem', color: '#666', marginBottom: '20px' }}>
+              Projected breakdown for a typical 1,000 kWh residential bill
+            </p>
+            
+            <div style={{ height: 450 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={currentData.chart}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={100}
+                    outerRadius={145}
+                    paddingAngle={5}
+                    dataKey="value"
+                    stroke="none"
+                    animationDuration={1000}
+                  >
+                    {currentData.chart.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.fill} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    formatter={(value, name, props) => [`$${value.toFixed(2)} (${props.payload.percentage})`, name]}
+                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 15px rgba(0,0,0,0.15)', padding: '15px' }}
+                  />
+                  <Legend iconType="circle" layout="horizontal" verticalAlign="bottom" align="center" wrapperStyle={{ paddingTop: '30px' }} />
+                </PieChart>
+              </ResponsiveContainer>
+              <div style={{ position: 'absolute', top: '56%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', pointerEvents: 'none' }}>
+                <span style={{ fontSize: '0.9rem', color: '#666', display: 'block', letterSpacing: '1px' }}>MONTHLY TOTAL</span>
+                <span style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#00598c' }}>${currentData.total.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
         </section>
+
+        {/* SECTION 3: THE WRITE-UP */}
+        <section style={{ padding: '0 20px 40px' }}>
+          <div style={{ background: '#fcfcfc', border: '1px solid #eee', borderRadius: '12px', padding: '35px', marginBottom: '40px' }}>
+            <h2 style={{ color: '#00598c', marginTop: 0 }}>DEP vs. DEC: Why do the numbers differ?</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginTop: '20px' }}>
+              <p style={{ color: '#444', lineHeight: '1.7', margin: 0 }}>
+                <strong>The Fuel Gap:</strong> You’ll notice <strong>DEP</strong> typically has a higher fuel percentage (29%). 
+                This is driven by a unique mix of natural gas and nuclear generation required to meet the specific peak demand 
+                profiles of eastern North Carolina.
+              </p>
+              <p style={{ color: '#444', lineHeight: '1.7', margin: 0 }}>
+                <strong>Infrastructure Costs:</strong> <strong>DEC</strong> carries higher Transmission costs (11%) 
+                due to the density of the Charlotte and Triad hubs, requiring more complex "high-voltage highways" to move power into major urban centers.
+              </p>
+            </div>
+            <div style={{ marginTop: '25px', padding: '20px', backgroundColor: '#eef6fb', borderRadius: '8px', borderLeft: '4px solid #00598c' }}>
+              <p style={{ margin: 0, color: '#00598c', fontWeight: 600 }}>
+                The 2026 Shift: Across both utilities, a larger slice of your bill is shifting toward Generation and Transmission. 
+                This represents the "Carbon Plan" in action—retiring coal and building the infrastructure for a cleaner grid.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 4: REVERTED INFO CARDS DESIGN */}
+        <section style={{ padding: '0 20px 40px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '25px' }}>
+          {currentData.chart.map((item, index) => (
+            <div 
+              key={index} 
+              className="info-card" 
+              style={{ 
+                background: item.bg, 
+                padding: '25px', 
+                borderRadius: '12px', 
+                borderLeft: `5px solid ${item.fill}`,
+                boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+              }}
+            >
+              <h4 style={{ color: item.fill === '#666' ? '#333' : item.fill, marginTop: 0 }}>
+                {index + 1}. {item.name} ({item.percentage})
+              </h4>
+              <p style={{ fontSize: '0.9rem', color: '#444', lineHeight: '1.5', marginBottom: '15px' }}>
+                {item.detail}
+              </p>
+              <div style={{ fontWeight: 'bold', color: '#333', fontSize: '1rem' }}>
+                Allocated Cost: ${item.value.toFixed(2)}
+              </div>
+            </div>
+          ))}
+        </section>
+
+        <footer style={{ textAlign: 'center', padding: '40px', color: '#888', fontSize: '0.85rem', borderTop: '1px solid #eee' }}>
+          <p>Data Source: Projected 2026 Cost of Service Studies (NCUC Docket Nos. E-2 Sub 1300 & E-7 Sub 1330).</p>
+          <p style={{ marginTop: '10px' }}>Individual results vary based on actual household usage patterns and weather extremes.</p>
+        </footer>
       </div>
     </div>
   );

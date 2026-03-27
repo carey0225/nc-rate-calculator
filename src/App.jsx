@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar'; 
 import DeepDive from './DeepDive';
+// 1. ADD THIS IMPORT
+import TableauPage from './TableauPage'; 
 import './App.css';
 
 const Home = () => {
@@ -9,7 +11,6 @@ const Home = () => {
   const [kwh, setKwh] = useState(1000); 
   const [rateType, setRateType] = useState('standard');
 
-  // Technical Rate Schedules (Step 3 - 2026 Projections)
   const utilityData = {
     DEP: {
       label: "Duke Energy Progress",
@@ -183,39 +184,39 @@ const Home = () => {
             </tfoot>
           </table>
 
-          {/* DYNAMIC RATE COMPONENT TABLE */}
-          <div style={{ marginTop: '30px', padding: '0 10px' }}>
-            <h4 style={{ color: '#00598c', marginBottom: '10px', fontSize: '0.95rem', borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>
-              Schedule {rateType.toUpperCase()} Detail: {utility}
-            </h4>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', backgroundColor: '#fff' }}>
-              <thead>
-                <tr style={{ borderBottom: '2px solid #00598c', textAlign: 'left', color: '#666' }}>
-                  <th style={{ padding: '8px' }}>Period</th>
-                  <th style={{ padding: '8px' }}>Definition</th>
-                  <th style={{ padding: '8px' }}>Actual Rate (approx.)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedRates.components.map((comp, index) => (
-                  <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
-                    <td style={{ padding: '8px', fontWeight: 'bold' }}>{comp.period}</td>
-                    <td style={{ padding: '8px' }}>{comp.definition}</td>
-                    <td style={{ padding: '8px' }}>{comp.rate}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+         {/* DYNAMIC RATE COMPONENT TABLE */}
+<div style={{ marginTop: '30px', padding: '0 10px' }}>
+  <h4 style={{ color: '#00598c', marginBottom: '10px', fontSize: '0.95rem', borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>
+    Schedule {rateType.toUpperCase()} Detail: {utility}
+  </h4>
+  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', backgroundColor: '#fff' }}>
+    <thead>
+      <tr style={{ borderBottom: '2px solid #00598c', color: '#666' }}>
+        {/* Added textAlign: 'center' to headers */}
+        <th style={{ padding: '8px', textAlign: 'center' }}>Period</th>
+        <th style={{ padding: '8px', textAlign: 'center' }}>Definition</th>
+        <th style={{ padding: '8px', textAlign: 'center' }}>Actual Rate (approx.)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {selectedRates.components.map((comp, index) => (
+        <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
+          {/* Added textAlign: 'center' to data cells */}
+          <td style={{ padding: '8px', fontWeight: 'bold', textAlign: 'center' }}>{comp.period}</td>
+          <td style={{ padding: '8px', textAlign: 'center' }}>{comp.definition}</td>
+          <td style={{ padding: '8px', textAlign: 'center' }}>{comp.rate}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
-          {/* DYNAMIC TECHNICAL NOTE */}
           <div style={{ marginTop: '30px', backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', borderLeft: '4px solid #00598c', textAlign: 'left' }}>
                <p style={{ fontSize: '0.85rem', color: '#333', margin: 0, lineHeight: '1.5' }}>
                 <strong>{rateType.toUpperCase()} Analysis:</strong> {getDynamicDisclaimer()}
               </p>
           </div>
 
-          {/* STATIC GENERAL DISCLAIMER */}
           <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fffbe6', borderRadius: '4px', border: '1px solid #ffe58f', textAlign: 'left' }}>
             <p style={{ fontSize: '0.82rem', color: '#856404', margin: 0, lineHeight: '1.5' }}>
               <strong>Important Notice:</strong> These figures are for estimation purposes only. Your actual monthly bill is influenced by 
@@ -243,6 +244,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/deep-dive" element={<DeepDive />} />
+        {/* CHANGE THIS FROM /tableau TO /data */}
+        <Route path="/data" element={<TableauPage />} /> 
       </Routes>
     </Router>
   );

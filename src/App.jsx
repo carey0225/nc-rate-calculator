@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom'; // Removed Router from here
+import { Routes, Route, useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 import Navbar from './Navbar'; 
 import DeepDive from './DeepDive';
@@ -95,7 +95,7 @@ const Home = () => {
 
   const getDynamicDisclaimer = () => {
     const disclaimers = {
-      standard: "Estimates based on flat-rate volumetric charges. This remains the baseline for most residential customer classes.",
+      standard: "Estimates based on flat-rate volumetric charges. This remains the baseline for most residential customer classes under current NCUC general rate cases.",
       tou: `Technical Note: The energy charge ($${selectedRates.current.energy.toFixed(5)}) represents a Load-Weighted Average.`,
       flex: "Pilot Program Notice: Flex Savings calculations incorporate a higher fixed Basic Facilities Charge."
     };
@@ -121,9 +121,16 @@ const Home = () => {
     <div className="bill-page-bg">
       <div className="official-bill-container">
         <Navbar />
+
         <div className="bill-title-bar" style={{ marginTop: '20px', textAlign: 'center' }}>
           <h2 style={{ color: '#00598c', marginBottom: '5px' }}>NC Residential Rate Impact Tool</h2>
           <p style={{ color: '#666', fontSize: '0.9rem' }}>Projected 2026 Billing Impacts</p>
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: '30px' }}>
+          <h3 style={{ color: '#333', fontSize: '1.1rem', marginBottom: '10px', fontWeight: '600' }}>
+            Select Your Electricity Provider
+          </h3>
         </div>
 
         <section style={{ textAlign: 'center', padding: '20px 0', borderBottom: '1px solid #eee', marginBottom: '20px' }}>
@@ -141,7 +148,11 @@ const Home = () => {
           </div>
         </section>
 
+        {/* RATE SCHEDULE SELECTION */}
         <section style={{ padding: '0 20px 20px', textAlign: 'center' }}>
+          <h3 style={{ color: '#333', fontSize: '1rem', marginBottom: '15px', fontWeight: '600' }}>
+            Select Your Residential Rate Schedule*
+          </h3>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
             {Object.keys(rateSchedules).map((key) => (
               <button key={key} onClick={() => setRateType(key)} style={{
@@ -224,9 +235,24 @@ const Home = () => {
             </p>
           </div>
 
+          <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fffbe6', borderRadius: '4px', border: '1px solid #ffe58f', textAlign: 'left' }}>
+            <p style={{ fontSize: '0.82rem', color: '#856404', margin: 0, lineHeight: '1.5' }}>
+              <strong>Individual Usage Note:</strong> These figures are estimates based on average consumption models. Your actual bill will vary based on 
+              <strong> household size, personal energy habits, appliance efficiency, and home insulation.</strong> Factors such as extreme weather conditions, 
+              water heater settings, and the use of high-energy equipment (like EVs or pool pumps) can significantly affect your monthly total.
+            </p>
+          </div>
+
+          {/* RATE INFORMATION FOOTNOTE */}
+          <div style={{ marginTop: '15px', padding: '15px', borderTop: '1px dashed #ccc', textAlign: 'left' }}>
+            <p style={{ fontSize: '0.8rem', color: '#666', margin: 0, lineHeight: '1.5' }}>
+              *Your home's electricity rate schedule can be found on your monthly electricity bill as well as on your Duke Energy account page. For more details on all the rate schedules offered in your region, visit <a href="https://www.duke-energy.com/home/billing/rates" target="_blank" rel="noopener noreferrer" style={{ color: '#00598c', textDecoration: 'underline' }}>duke-energy.com/rates</a>.
+            </p>
+          </div>
+
           <footer style={{ marginTop: '40px', padding: '20px', borderTop: '1px solid #eee' }}>
             <p style={{ fontSize: '0.7rem', color: '#999', textAlign: 'center', maxWidth: '800px', margin: '0 auto', lineHeight: '1.4' }}>
-              <strong>Regulatory Disclosure:</strong> Projections derived from NCUC Docket Nos. E-2 Sub 1300/1320 and E-7 Sub 1330.
+              <strong>Regulatory Disclosure:</strong> Projections derived from NCUC Docket Nos. E-2 Sub 1300/1320 and E-7 Sub 1330. All values reflect Step 3 MYRP adjustments effective 2026.
             </p>
           </footer>
         </div>
@@ -235,11 +261,10 @@ const Home = () => {
   );
 };
 
-// --- APP COMPONENT ---
 function App() {
   return (
     <>
-      <AnalyticsTracker /> {/* Track all routes */}
+      <AnalyticsTracker /> 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/deep-dive" element={<DeepDive />} />

@@ -14,7 +14,7 @@ const DeepDive = () => {
         { name: 'Fuel & Variable O&M', value: 47.89, percentage: '29%', fill: '#00598c', bg: '#f4faff', detail: 'Actual cost of coal, gas, and uranium used to generate power.' },
         { name: 'Transmission', value: 8.25, percentage: '5%', fill: '#8db357', bg: '#f6fff4', detail: 'The "high-voltage highway" of large towers and lines.' },
         { name: 'Distribution', value: 24.26, percentage: '15%', fill: '#46a5af', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing ($14 fixed + $25 usage).' },
-        { name: 'Generation / Fixed Prod', value: 57.15, percentage: '34%', fill: '#e67e22', bg: '#fff9f4', detail: 'Operation, maintenance, and debt for building power plants.' },
+        { name: 'Generation / Fixed Production', value: 57.15, percentage: '34%', fill: '#e67e22', bg: '#fff9f4', detail: 'Operation, maintenance, and debt for building power plants.' },
         { name: 'Customer Costs', value: 28.11, percentage: '17%', fill: '#666', bg: '#f8f9fa', detail: 'Energy efficiency, clean energy (REPS), and storm recovery.' },
       ]
     },
@@ -25,7 +25,7 @@ const DeepDive = () => {
         { name: 'Fuel & Variable O&M', value: 29.25, percentage: '22%', fill: '#00598c', bg: '#f4faff', detail: 'Actual cost of coal, gas, and uranium used to generate power.' },
         { name: 'Transmission', value: 15.43, percentage: '11%', fill: '#8db357', bg: '#f6fff4', detail: 'The "high-voltage highway" of large towers and lines.' },
         { name: 'Distribution', value: 32.71, percentage: '24%', fill: '#46a5af', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing ($14 fixed + $25 usage).' },
-        { name: 'Generation / Fixed Prod', value: 42.55, percentage: '32%', fill: '#e67e22', bg: '#fff9f4', detail: 'Operation, maintenance, and debt for building power plants.' },
+        { name: 'Generation / Fixed Production', value: 42.55, percentage: '32%', fill: '#e67e22', bg: '#fff9f4', detail: 'Operation, maintenance, and debt for building power plants.' },
         { name: 'Customer Costs', value: 14.40, percentage: '11%', fill: '#666', bg: '#f8f9fa', detail: 'Energy efficiency, clean energy (REPS), and storm recovery.' },
       ]
     }

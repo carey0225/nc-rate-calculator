@@ -254,7 +254,7 @@ const Home = () => {
 
           <footer style={{ marginTop: '40px', padding: '30px 0', borderTop: `1px solid #eee` }}>
             <p style={{ fontSize: '0.75rem', color: '#999', textAlign: 'center', lineHeight: '1.4' }}>
-              <strong>Regulatory Disclosure:</strong> Projections derived from Dockets E-7 Sub 1276 & E-2 Sub 1320.
+              <strong>Regulatory Disclosure:</strong> Data Source: NCUC Dockets E-7 Sub 1276 & E-2 Sub 1320.
             </p>
           </footer>
         </div>

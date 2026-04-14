@@ -31,9 +31,7 @@ const Home = () => {
       standard: {
         current: { customer: 14.00, energy: 0.11823, storm: 0.00210, rider: 0.01549, clean: 1.52 },
         proposed: { customer: 15.75, energy: 0.12620, storm: 0.00280, rider: 0.01810, clean: 1.95 },
-        components: [
-          { period: "Flat Rate", definition: "24/7 Universal Rate", rate: "$0.11823" }
-        ]
+        components: [{ period: "Flat Rate", definition: "24/7 Universal Rate", rate: "$0.11823" }]
       },
       tou: {
         current: { customer: 14.00, energy: 0.10850, storm: 0.00210, rider: 0.01549, clean: 1.52 },
@@ -59,9 +57,7 @@ const Home = () => {
       standard: {
         current: { customer: 11.80, energy: 0.10840, storm: 0.00180, rider: 0.01750, clean: 1.20 },
         proposed: { customer: 13.11, energy: 0.11520, storm: 0.00240, rider: 0.02100, clean: 1.65 },
-        components: [
-          { period: "Flat Rate", definition: "24/7 Universal Rate", rate: "$0.10840" }
-        ]
+        components: [{ period: "Flat Rate", definition: "24/7 Universal Rate", rate: "$0.10840" }]
       },
       tou: {
         current: { customer: 11.80, energy: 0.09950, storm: 0.00180, rider: 0.01750, clean: 1.20 },
@@ -85,9 +81,9 @@ const Home = () => {
   };
 
   const rateSchedules = {
-    standard: { label: "Standard Residential (RES)", description: "The most common flat-rate plan." },
-    tou: { label: "Smart Usage (R-TOU)", description: "Time-of-Use plan with variable peak rates." },
-    flex: { label: "Flex Savings (Pilot)", description: "Shift usage to overnight/off-peak hours." }
+    standard: { label: "Standard Residential (RES)" },
+    tou: { label: "Smart Usage (R-TOU)" },
+    flex: { label: "Flex Savings (Pilot)" }
   };
 
   const selectedUtility = utilityData[utility];
@@ -117,20 +113,28 @@ const Home = () => {
   const cur = calculateBill(selectedRates.current);
   const prop = calculateBill(selectedRates.proposed);
 
+  const brandStyles = {
+    mainHeading: { color: '#007dc3', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '700' },
+    subHeading: { color: '#636566', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '400' },
+    providerText: { color: '#254c91', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '700' },
+    greenAccent: '#98bf3c',
+    blueAccent: '#007dc3',
+    grayText: '#636566'
+  };
+
   return (
-    <div className="bill-page-bg">
-      <div className="official-bill-container">
+    <div className="bill-page-bg" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
+      {/* Ensure this container has a fixed max-width to match DeepDive and Data pages */}
+      <div className="official-bill-container" style={{ maxWidth: '1200px', margin: '0 auto', backgroundColor: '#fff', minHeight: '100vh' }}>
         <Navbar />
 
-        <div className="bill-title-bar" style={{ marginTop: '20px', textAlign: 'center' }}>
-          <h2 style={{ color: '#00598c', marginBottom: '5px' }}>NC Residential Rate Impact Tool</h2>
-          <p style={{ color: '#666', fontSize: '0.9rem' }}>Projected 2026 Billing Impacts</p>
+        <div className="bill-title-bar" style={{ marginTop: '30px', textAlign: 'center' }}>
+          <h2 style={brandStyles.mainHeading}>NC Residential Rate Impact Tool</h2>
+          <p style={brandStyles.subHeading}>Projected 2026 Billing Impacts</p>
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '30px' }}>
-          <h3 style={{ color: '#333', fontSize: '1.1rem', marginBottom: '10px', fontWeight: '600' }}>
-            Select Your Electricity Provider
-          </h3>
+          <h3 style={brandStyles.providerText}>Select Your Electricity Provider</h3>
         </div>
 
         <section style={{ textAlign: 'center', padding: '20px 0', borderBottom: '1px solid #eee', marginBottom: '20px' }}>
@@ -138,9 +142,9 @@ const Home = () => {
             {['DEP', 'DEC'].map((u) => (
               <button key={u} onClick={() => setUtility(u)} style={{
                 padding: '10px 25px', borderRadius: '6px', border: 'none',
-                backgroundColor: utility === u ? '#00598c' : 'transparent',
-                color: utility === u ? 'white' : '#555', cursor: 'pointer',
-                fontWeight: 'bold', fontSize: '0.9rem'
+                backgroundColor: utility === u ? brandStyles.blueAccent : 'transparent',
+                color: utility === u ? 'white' : brandStyles.grayText, cursor: 'pointer',
+                fontWeight: 'bold', fontSize: '0.9rem', transition: '0.2s'
               }}>
                 {utilityData[u].label}
               </button>
@@ -148,17 +152,18 @@ const Home = () => {
           </div>
         </section>
 
-        {/* RATE SCHEDULE SELECTION */}
-        <section style={{ padding: '0 20px 20px', textAlign: 'center' }}>
-          <h3 style={{ color: '#333', fontSize: '1rem', marginBottom: '15px', fontWeight: '600' }}>
+        <section style={{ padding: '0 20px 25px', textAlign: 'center' }}>
+          <h3 style={{ ...brandStyles.subHeading, fontSize: '1rem', marginBottom: '15px', fontWeight: '700' }}>
             Select Your Residential Rate Schedule*
           </h3>
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
             {Object.keys(rateSchedules).map((key) => (
               <button key={key} onClick={() => setRateType(key)} style={{
-                padding: '8px 16px', borderRadius: '20px', border: rateType === key ? 'none' : '1px solid #ccc',
-                backgroundColor: rateType === key ? '#46a5af' : 'white', color: rateType === key ? 'white' : '#666',
-                cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem'
+                padding: '10px 22px', borderRadius: '25px', 
+                border: rateType === key ? 'none' : `1px solid ${brandStyles.grayText}`,
+                backgroundColor: rateType === key ? brandStyles.greenAccent : 'white', 
+                color: rateType === key ? 'white' : brandStyles.grayText,
+                cursor: 'pointer', fontWeight: 'bold', fontSize: '0.85rem', transition: '0.2s'
               }}>
                 {rateSchedules[key].label}
               </button>
@@ -166,52 +171,52 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="usage-control-section" style={{ padding: '10px 20px 20px', backgroundColor: '#f9f9f9', borderRadius: '8px', margin: '0 20px 25px' }}>
-          <div className="usage-focus">
-            <span className="label">Monthly Energy Usage</span>
-            <span className="value" style={{ color: '#00598c' }}>{kwh} kWh</span>
+        <section className="usage-control-section" style={{ padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '12px', margin: '0 20px 30px', borderLeft: `6px solid ${brandStyles.blueAccent}` }}>
+          <div className="usage-focus" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <span style={{ fontWeight: '700', color: brandStyles.grayText }}>Monthly Energy Usage</span>
+            <span style={{ fontSize: '1.4rem', fontWeight: '700', color: brandStyles.blueAccent }}>{kwh} kWh</span>
           </div>
           <input type="range" min="100" max="5000" step="10" value={kwh} onChange={(e) => setKwh(parseInt(e.target.value))} className="bill-slider" />
         </section>
 
-        <div className="billing-details-wrapper">
-          <table className="official-data-table">
+        <div className="billing-details-wrapper" style={{ padding: '0 20px' }}>
+          <table className="official-data-table" style={{ width: '100%', borderCollapse: 'collapse', borderRadius: '8px', overflow: 'hidden' }}>
             <thead>
-              <tr className="blue-section-header">
-                <th colSpan="5">Billing Analysis: {utilityData[utility].label}</th>
+              <tr style={{ backgroundColor: brandStyles.blueAccent, color: 'white' }}>
+                <th colSpan="5" style={{ padding: '15px', fontSize: '1.1rem' }}>Billing Analysis: {utilityData[utility].label}</th>
               </tr>
-              <tr className="sub-header-row">
-                <th align="left">Description</th>
-                <th>Current (2025)</th>
-                <th>Current Amount</th>
-                <th>Proposed (2026)</th>
-                <th>Proposed Amount</th>
+              <tr style={{ backgroundColor: '#f2f2f2', color: brandStyles.grayText, fontSize: '0.85rem' }}>
+                <th style={{ padding: '10px', textAlign: 'left' }}>Description</th>
+                <th>Current</th>
+                <th>Current Amt</th>
+                <th>Proposed</th>
+                <th>Proposed Amt</th>
               </tr>
             </thead>
-            <tbody>
-              <tr><td>Basic Customer Charge</td><td>Fixed</td><td>${cur.customer.toFixed(2)}</td><td>Fixed</td><td>${prop.customer.toFixed(2)}</td></tr>
-              <tr><td>Energy Charge (@ kWh)</td><td>${selectedRates.current.energy.toFixed(5)}</td><td>${cur.energy.toFixed(2)}</td><td>${selectedRates.proposed.energy.toFixed(5)}</td><td>${prop.energy.toFixed(2)}</td></tr>
-              <tr><td>Storm Recovery Riders</td><td>${selectedRates.current.storm.toFixed(5)}</td><td>${cur.storm.toFixed(2)}</td><td>${selectedRates.proposed.storm.toFixed(5)}</td><td>${prop.storm.toFixed(2)}</td></tr>
-              <tr><td>Other REPS/EE Riders</td><td>${selectedRates.current.rider.toFixed(5)}</td><td>${cur.rider.toFixed(2)}</td><td>${selectedRates.proposed.rider.toFixed(5)}</td><td>${prop.rider.toFixed(2)}</td></tr>
-              <tr><td>Clean Energy Program</td><td>Fixed</td><td>${cur.clean.toFixed(2)}</td><td>Fixed</td><td>${prop.clean.toFixed(2)}</td></tr>
-              <tr><td>NC Sales Tax (7.0%)</td><td>—</td><td>${cur.tax.toFixed(2)}</td><td>—</td><td>${prop.tax.toFixed(2)}</td></tr>
+            <tbody style={{ fontSize: '0.9rem' }}>
+              <tr style={{ borderBottom: '1px solid #eee' }}><td style={{ padding: '12px' }}>Basic Customer Charge</td><td>Fixed</td><td>${cur.customer.toFixed(2)}</td><td>Fixed</td><td>${prop.customer.toFixed(2)}</td></tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}><td>Energy Charge</td><td>${selectedRates.current.energy.toFixed(5)}</td><td>${cur.energy.toFixed(2)}</td><td>${selectedRates.proposed.energy.toFixed(5)}</td><td>${prop.energy.toFixed(2)}</td></tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}><td>Storm Recovery Riders</td><td>${selectedRates.current.storm.toFixed(5)}</td><td>${cur.storm.toFixed(2)}</td><td>${selectedRates.proposed.storm.toFixed(5)}</td><td>${prop.storm.toFixed(2)}</td></tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}><td>Other REPS/EE Riders</td><td>${selectedRates.current.rider.toFixed(5)}</td><td>${cur.rider.toFixed(2)}</td><td>${selectedRates.proposed.rider.toFixed(5)}</td><td>${prop.rider.toFixed(2)}</td></tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}><td>Clean Energy Program</td><td>Fixed</td><td>${cur.clean.toFixed(2)}</td><td>Fixed</td><td>${prop.clean.toFixed(2)}</td></tr>
+              <tr style={{ borderBottom: '2px solid #ccc' }}><td>NC Sales Tax (7.0%)</td><td>—</td><td>${cur.tax.toFixed(2)}</td><td>—</td><td>${prop.tax.toFixed(2)}</td></tr>
             </tbody>
             <tfoot>
-              <tr className="total-row-highlight">
-                <td className="grand-total-label">Total Monthly Bill</td>
-                <td></td><td className="current-total">${cur.total.toFixed(2)}</td>
-                <td></td><td className="proposed-total" style={{ color: '#d32f2f' }}>${prop.total.toFixed(2)}</td>
+              <tr style={{ backgroundColor: '#fdfdfd' }}>
+                <td style={{ padding: '20px', fontWeight: '700', fontSize: '1.1rem' }}>Total Monthly Bill</td>
+                <td></td><td style={{ fontWeight: '700' }}>${cur.total.toFixed(2)}</td>
+                <td></td><td style={{ fontWeight: '700', color: '#d32f2f', fontSize: '1.2rem' }}>${prop.total.toFixed(2)}</td>
               </tr>
             </tfoot>
           </table>
 
-          <div style={{ marginTop: '30px', padding: '0 10px' }}>
-            <h4 style={{ color: '#00598c', marginBottom: '10px', fontSize: '0.95rem', borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>
+          <div style={{ marginTop: '30px' }}>
+            <h4 style={{ color: brandStyles.blueAccent, marginBottom: '10px', fontSize: '0.95rem', borderBottom: `2px solid ${brandStyles.greenAccent}`, paddingBottom: '5px' }}>
               Schedule {rateType.toUpperCase()} Detail: {utility}
             </h4>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', backgroundColor: '#fff' }}>
               <thead>
-                <tr style={{ borderBottom: '2px solid #00598c', color: '#666' }}>
+                <tr style={{ borderBottom: '1px solid #ddd', color: brandStyles.grayText }}>
                   <th style={{ padding: '8px', textAlign: 'center' }}>Period</th>
                   <th style={{ padding: '8px', textAlign: 'center' }}>Definition</th>
                   <th style={{ padding: '8px', textAlign: 'center' }}>Actual Rate (approx.)</th>
@@ -219,40 +224,37 @@ const Home = () => {
               </thead>
               <tbody>
                 {selectedRates.components.map((comp, index) => (
-                  <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
-                    <td style={{ padding: '8px', fontWeight: 'bold', textAlign: 'center' }}>{comp.period}</td>
+                  <tr key={index} style={{ borderBottom: '1px solid #f0f0f0' }}>
+                    <td style={{ padding: '8px', fontWeight: 'bold', textAlign: 'center', color: brandStyles.blueAccent }}>{comp.period}</td>
                     <td style={{ padding: '8px', textAlign: 'center' }}>{comp.definition}</td>
-                    <td style={{ padding: '8px', textAlign: 'center' }}>{comp.rate}</td>
+                    <td style={{ padding: '8px', textAlign: 'center', fontWeight: 'bold' }}>{comp.rate}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          <div style={{ marginTop: '30px', backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', borderLeft: '4px solid #00598c', textAlign: 'left' }}>
-            <p style={{ fontSize: '0.85rem', color: '#333', margin: 0, lineHeight: '1.5' }}>
+          <div style={{ marginTop: '25px', backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', borderLeft: `4px solid ${brandStyles.blueAccent}` }}>
+            <p style={{ fontSize: '0.85rem', color: brandStyles.grayText, margin: 0 }}>
               <strong>{rateType.toUpperCase()} Analysis:</strong> {getDynamicDisclaimer()}
             </p>
           </div>
 
-          <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fffbe6', borderRadius: '4px', border: '1px solid #ffe58f', textAlign: 'left' }}>
+          <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fffbe6', borderRadius: '4px', border: '1px solid #ffe58f' }}>
             <p style={{ fontSize: '0.82rem', color: '#856404', margin: 0, lineHeight: '1.5' }}>
-              <strong>Individual Usage Note:</strong> These figures are estimates based on average consumption models. Your actual bill will vary based on 
-              <strong> household size, personal energy habits, appliance efficiency, and home insulation.</strong> Factors such as extreme weather conditions, 
-              water heater settings, and the use of high-energy equipment (like EVs or pool pumps) can significantly affect your monthly total.
+              <strong>Individual Usage Note:</strong> These figures are estimates based on average consumption models. Your actual bill will vary based on household size, personal energy habits, appliance efficiency, and home insulation. Factors such as extreme weather conditions, water heater settings, and the use of high-energy equipment (like EVs or pool pumps) can significantly affect your monthly total.
             </p>
           </div>
 
-          {/* RATE INFORMATION FOOTNOTE */}
-          <div style={{ marginTop: '15px', padding: '15px', borderTop: '1px dashed #ccc', textAlign: 'left' }}>
-            <p style={{ fontSize: '0.8rem', color: '#666', margin: 0, lineHeight: '1.5' }}>
-              *Your home's electricity rate schedule can be found on your monthly electricity bill as well as on your Duke Energy account page. For more details on all the rate schedules offered in your region, visit <a href="https://www.duke-energy.com/home/billing/rates" target="_blank" rel="noopener noreferrer" style={{ color: '#00598c', textDecoration: 'underline' }}>duke-energy.com/rates</a>.
+          <div style={{ marginTop: '20px', padding: '15px 0', borderTop: '1px dashed #ccc' }}>
+            <p style={{ fontSize: '0.8rem', color: brandStyles.grayText, margin: 0 }}>
+              *Rate schedules can be found on your bill or account page. Visit <a href="https://www.duke-energy.com/home/billing/rates" target="_blank" rel="noopener noreferrer" style={{ color: brandStyles.blueAccent, fontWeight: '700' }}>duke-energy.com/rates</a> for details.
             </p>
           </div>
 
-          <footer style={{ marginTop: '40px', padding: '20px', borderTop: '1px solid #eee' }}>
-            <p style={{ fontSize: '0.7rem', color: '#999', textAlign: 'center', maxWidth: '800px', margin: '0 auto', lineHeight: '1.4' }}>
-              <strong>Regulatory Disclosure:</strong> Projections derived from NCUC Docket Nos. E-2 Sub 1300/1320 and E-7 Sub 1330. All values reflect Step 3 MYRP adjustments effective 2026.
+          <footer style={{ marginTop: '40px', padding: '30px 0', borderTop: `1px solid #eee` }}>
+            <p style={{ fontSize: '0.75rem', color: '#999', textAlign: 'center', lineHeight: '1.4' }}>
+              <strong>Regulatory Disclosure:</strong> Projections derived from Dockets E-7 Sub 1276 & E-2 Sub 1320.
             </p>
           </footer>
         </div>

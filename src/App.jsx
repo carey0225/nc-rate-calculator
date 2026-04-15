@@ -25,51 +25,51 @@ const Home = () => {
   const [kwh, setKwh] = useState(1000); 
   const [rateType, setRateType] = useState('standard');
 
-  const utilityData = {
+const utilityData = {
     DEP: {
       label: "Duke Energy Progress",
       standard: {
-        current: { customer: 14.00, energy: 0.11823, storm: 0.00210, rider: 0.01549, clean: 1.52 },
-        proposed: { customer: 15.75, energy: 0.12620, storm: 0.00280, rider: 0.01810, clean: 1.95 },
-        components: [{ period: "Flat Rate", definition: "24/7 Universal Rate", rate: "$0.11823" }]
+        current: { customer: 14.00, energy: 0.12623, storm: 0.00210, rider: 0.02097, clean: 1.81 },
+        proposed: { customer: 16.00, energy: 0.14981, storm: 0.002492, rider: 0.024888, clean: 2.15 },
+        components: [{ period: "Flat Rate", definition: "24/7 Universal Rate", rate: "$0.14958" }]
       },
       tou: {
-        current: { customer: 14.00, energy: 0.10850, storm: 0.00210, rider: 0.01549, clean: 1.52 },
-        proposed: { customer: 16.50, energy: 0.11920, storm: 0.00280, rider: 0.01810, clean: 1.95 },
+        current: { customer: 14.00, energy: 0.10850, storm: 0.00210, rider: 0.01549, clean: 1.81 },
+        proposed: { customer: 16.00, energy: 0.11920, storm: 0.00280, rider: 0.01810, clean: 2.15 },
         components: [
           { period: "On-Peak", definition: "Summer: 6PM–9PM / Winter: 6AM–9AM", rate: "~$0.224" },
           { period: "Off-Peak", definition: "All other hours (excluding Discount)", rate: "~$0.118" },
           { period: "Discount", definition: "1 AM – 6 AM (Daily)", rate: "~$0.062" }
         ]
       },
-      flex: {
-        current: { customer: 14.00, energy: 0.09240, storm: 0.00210, rider: 0.01549, clean: 1.52 },
-        proposed: { customer: 18.50, energy: 0.10810, storm: 0.00280, rider: 0.01810, clean: 1.95 },
+      rtoud: {
+        current: { customer: 14.00, energy: 0.10847, storm: 0.00210, rider: 0.01549, clean: 1.52 },
+        proposed: { customer: 16.00, energy: 0.12854, storm: 0.00280, rider: 0.01810, clean: 1.95 },
         components: [
-          { period: "On-Peak", definition: "Summer: 6PM–9PM / Winter: 6AM–9AM", rate: "~$0.285" },
-          { period: "Discount", definition: "Daily 1AM–6AM & Winter 11AM–4PM", rate: "~$0.051" },
-          { period: "Critical Peak", definition: "Grid Stress Events (Max 20 days/yr)", rate: "Varies" }
+          { period: "On-Peak", definition: "6PM–9PM (Summer) / 6AM–9AM (Non-Summer)", rate: "$0.18531" },
+          { period: "Off-Peak", definition: "All hours not designated On-Peak or Discount", rate: "$0.07860" },
+          { period: "Discount", definition: "Daily: 1AM–6AM; Non-Summer: 11AM–4PM", rate: "$0.05151" }
         ]
       }
     },
     DEC: {
       label: "Duke Energy Carolinas",
       standard: {
-        current: { customer: 11.80, energy: 0.10840, storm: 0.00180, rider: 0.01750, clean: 1.20 },
-        proposed: { customer: 13.11, energy: 0.11520, storm: 0.00240, rider: 0.02100, clean: 1.65 },
-        components: [{ period: "Flat Rate", definition: "24/7 Universal Rate", rate: "$0.10840" }]
+        current: { customer: 14.00, energy: 0.122603, storm: 0.000467, rider: 0.004951, clean: 1.25 },
+        proposed: { customer: 16.00, energy: 0.141541, storm: 0.000539, rider: 0.005716, clean: 1.44 },
+        components: [{ period: "Flat Rate", definition: "24/7 Universal Rate", rate: "$0.12540" }]
       },
       tou: {
-        current: { customer: 11.80, energy: 0.09950, storm: 0.00180, rider: 0.01750, clean: 1.20 },
-        proposed: { customer: 14.50, energy: 0.10850, storm: 0.00240, rider: 0.02100, clean: 1.65 },
+        current: { customer: 14.00, energy: 0.09950, storm: 0.00180, rider: 0.01750, clean: 1.20 },
+        proposed: { customer: 16.00, energy: 0.10850, storm: 0.00240, rider: 0.02100, clean: 1.65 },
         components: [
           { period: "On-Peak", definition: "Summer: 6PM–9PM / Winter: 6AM–9AM", rate: "~$0.211" },
           { period: "Off-Peak", definition: "All other hours (excluding Discount)", rate: "~$0.105" },
           { period: "Discount", definition: "1 AM – 6 AM (Daily)", rate: "~$0.058" }
         ]
       },
-      flex: {
-        current: { customer: 11.80, energy: 0.08850, storm: 0.00180, rider: 0.01750, clean: 1.20 },
+      rtoud: {
+        current: { customer: 14.00, energy: 0.08850, storm: 0.00180, rider: 0.01750, clean: 1.20 },
         proposed: { customer: 16.00, energy: 0.09500, storm: 0.00240, rider: 0.02100, clean: 1.65 },
         components: [
           { period: "On-Peak", definition: "Summer: 6PM–9PM / Winter: 6AM–9AM", rate: "~$0.268" },
@@ -83,7 +83,7 @@ const Home = () => {
   const rateSchedules = {
     standard: { label: "Standard Residential (RES)" },
     tou: { label: "Smart Usage (R-TOU)" },
-    flex: { label: "Flex Savings (Pilot)" }
+    rtoud: { label: "Smart Usage Select (R-TOUD)" }
   };
 
   const selectedUtility = utilityData[utility];
@@ -93,7 +93,7 @@ const Home = () => {
     const disclaimers = {
       standard: "Estimates based on flat-rate volumetric charges. This remains the baseline for most residential customer classes under current NCUC general rate cases.",
       tou: `Technical Note: The energy charge ($${selectedRates.current.energy.toFixed(5)}) represents a Load-Weighted Average.`,
-      flex: "Pilot Program Notice: Flex Savings calculations incorporate a higher fixed Basic Facilities Charge."
+      rtoud: "Schedule R-TOUD calculations incorporate a higher fixed Basic Facilities Charge and time-variable energy pricing."
     };
     return disclaimers[rateType] || disclaimers.standard;
   };
@@ -124,7 +124,6 @@ const Home = () => {
 
   return (
     <div className="bill-page-bg" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
-      {/* Ensure this container has a fixed max-width to match DeepDive and Data pages */}
       <div className="official-bill-container" style={{ maxWidth: '1200px', margin: '0 auto', backgroundColor: '#fff', minHeight: '100vh' }}>
         <Navbar />
 
@@ -196,9 +195,9 @@ const Home = () => {
             <tbody style={{ fontSize: '0.9rem' }}>
               <tr style={{ borderBottom: '1px solid #eee' }}><td style={{ padding: '12px' }}>Basic Customer Charge</td><td>Fixed</td><td>${cur.customer.toFixed(2)}</td><td>Fixed</td><td>${prop.customer.toFixed(2)}</td></tr>
               <tr style={{ borderBottom: '1px solid #eee' }}><td>Energy Charge</td><td>${selectedRates.current.energy.toFixed(5)}</td><td>${cur.energy.toFixed(2)}</td><td>${selectedRates.proposed.energy.toFixed(5)}</td><td>${prop.energy.toFixed(2)}</td></tr>
-              <tr style={{ borderBottom: '1px solid #eee' }}><td>Storm Recovery Riders</td><td>${selectedRates.current.storm.toFixed(5)}</td><td>${cur.storm.toFixed(2)}</td><td>${selectedRates.proposed.storm.toFixed(5)}</td><td>${prop.storm.toFixed(2)}</td></tr>
-              <tr style={{ borderBottom: '1px solid #eee' }}><td>Other REPS/EE Riders</td><td>${selectedRates.current.rider.toFixed(5)}</td><td>${cur.rider.toFixed(2)}</td><td>${selectedRates.proposed.rider.toFixed(5)}</td><td>${prop.rider.toFixed(2)}</td></tr>
-              <tr style={{ borderBottom: '1px solid #eee' }}><td>Clean Energy Program</td><td>Fixed</td><td>${cur.clean.toFixed(2)}</td><td>Fixed</td><td>${prop.clean.toFixed(2)}</td></tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}><td>Storm Recovery Charge</td><td>${selectedRates.current.storm.toFixed(5)}</td><td>${cur.storm.toFixed(2)}</td><td>${selectedRates.proposed.storm.toFixed(5)}</td><td>${prop.storm.toFixed(2)}</td></tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}><td>Summary of Rider Adjustments</td><td>${selectedRates.current.rider.toFixed(5)}</td><td>${cur.rider.toFixed(2)}</td><td>${selectedRates.proposed.rider.toFixed(5)}</td><td>${prop.rider.toFixed(2)}</td></tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}><td>Clean Energy Rider</td><td>Fixed</td><td>${cur.clean.toFixed(2)}</td><td>Fixed</td><td>${prop.clean.toFixed(2)}</td></tr>
               <tr style={{ borderBottom: '2px solid #ccc' }}><td>NC Sales Tax (7.0%)</td><td>—</td><td>${cur.tax.toFixed(2)}</td><td>—</td><td>${prop.tax.toFixed(2)}</td></tr>
             </tbody>
             <tfoot>
@@ -212,7 +211,11 @@ const Home = () => {
 
           <div style={{ marginTop: '30px' }}>
             <h4 style={{ color: brandStyles.blueAccent, marginBottom: '10px', fontSize: '0.95rem', borderBottom: `2px solid ${brandStyles.greenAccent}`, paddingBottom: '5px' }}>
-              Schedule {rateType.toUpperCase()} Detail: {utility}
+              Schedule {
+                rateType === 'tou' ? 'R-TOU' : 
+                rateType === 'rtoud' ? 'R-TOUD' : 
+                rateType.toUpperCase()
+                        } Detail: {utility}
             </h4>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', backgroundColor: '#fff' }}>
               <thead>
@@ -236,7 +239,11 @@ const Home = () => {
 
           <div style={{ marginTop: '25px', backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', borderLeft: `4px solid ${brandStyles.blueAccent}` }}>
             <p style={{ fontSize: '0.85rem', color: brandStyles.grayText, margin: 0 }}>
-              <strong>{rateType.toUpperCase()} Analysis:</strong> {getDynamicDisclaimer()}
+              <strong>{
+                rateType === 'tou' ? 'R-TOU' : 
+                rateType === 'rtoud' ? 'R-TOUD' : 
+                rateType.toUpperCase()
+                      } Analysis:</strong> {getDynamicDisclaimer()}
             </p>
           </div>
 

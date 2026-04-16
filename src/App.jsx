@@ -24,8 +24,9 @@ const Home = () => {
   const [utility, setUtility] = useState('DEP'); 
   const [kwh, setKwh] = useState(1000); 
   const [rateType, setRateType] = useState('standard');
+  const [hoveredItem, setHoveredItem] = useState(null);
 
-const utilityData = {
+  const utilityData = {
     DEP: {
       label: "Duke Energy Progress",
       standard: {
@@ -89,9 +90,18 @@ const utilityData = {
   const selectedUtility = utilityData[utility];
   const selectedRates = selectedUtility[rateType];
 
+  const brandStyles = {
+    mainHeading: { color: '#007dc3', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '700' },
+    subHeading: { color: '#636566', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '400' },
+    providerText: { color: '#254c91', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '700' },
+    greenAccent: '#98bf3c',
+    blueAccent: '#007dc3',
+    grayText: '#636566'
+  };
+
   const getDynamicDisclaimer = () => {
     const disclaimers = {
-      standard: "Estimates based on flat-rate volumetric charges. This remains the baseline for most residential customer classes under current NCUC general rate cases.",
+      standard: "These estimates are based on a volumetric charge per kWh consumed plus a monthly fixed charge. This remains the baseline for most residential customers according to the most recent annual rate cases when the North Carolina Utilities Commission determines how much the utility is allowed to adjust electricity rates.",
       tou: `Technical Note: The energy charge ($${selectedRates.current.energy.toFixed(5)}) represents a Load-Weighted Average.`,
       rtoud: "Schedule R-TOUD calculations incorporate a higher fixed Basic Facilities Charge and time-variable energy pricing."
     };
@@ -113,14 +123,47 @@ const utilityData = {
   const cur = calculateBill(selectedRates.current);
   const prop = calculateBill(selectedRates.proposed);
 
-  const brandStyles = {
-    mainHeading: { color: '#007dc3', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '700' },
-    subHeading: { color: '#636566', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '400' },
-    providerText: { color: '#254c91', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '700' },
-    greenAccent: '#98bf3c',
-    blueAccent: '#007dc3',
-    grayText: '#636566'
-  };
+  // --- KEY CHANGE 1: UPDATED RENDER FUNCTION ---
+  const renderDescriptionCell = (text, tooltipText) => (
+    <td 
+      style={{ padding: '12px', position: 'relative', cursor: 'pointer' }}
+      onMouseEnter={() => setHoveredItem(text)}
+      onMouseLeave={() => setHoveredItem(null)}
+    >
+      <span style={{ borderBottom: `1px dotted ${brandStyles.grayText}` }}>{text}</span>
+      {hoveredItem === text && (
+        <div style={{
+          position: 'absolute',
+          bottom: '100%',
+          left: '0',
+          backgroundColor: '#fff',
+          color: brandStyles.grayText,
+          padding: '15px',
+          borderRadius: '8px',
+          fontSize: '0.85rem',
+          width: '260px',
+          whiteSpace: 'normal',
+          zIndex: 100,
+          marginBottom: '10px',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
+          border: 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '6px',
+          textAlign: 'left',
+          lineHeight: '1.4'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ height: '8px', width: '8px', borderRadius: '50%', backgroundColor: brandStyles.blueAccent }}></span>
+            <strong style={{ color: '#333' }}>{text}</strong>
+          </div>
+          <div style={{ paddingLeft: '16px', color: brandStyles.grayText }}>
+            {tooltipText}
+          </div>
+        </div>
+      )}
+    </td>
+  );
 
   return (
     <div className="bill-page-bg" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
@@ -178,27 +221,46 @@ const utilityData = {
           <input type="range" min="100" max="5000" step="10" value={kwh} onChange={(e) => setKwh(parseInt(e.target.value))} className="bill-slider" />
         </section>
 
-        <div className="billing-details-wrapper" style={{ padding: '0 20px' }}>
+        <div className="billing-details-wrapper" style={{ padding: '0 50px' }}>
           <table className="official-data-table" style={{ width: '100%', borderCollapse: 'collapse', borderRadius: '8px', overflow: 'hidden' }}>
             <thead>
               <tr style={{ backgroundColor: brandStyles.blueAccent, color: 'white' }}>
                 <th colSpan="5" style={{ padding: '15px', fontSize: '1.1rem' }}>Billing Analysis: {utilityData[utility].label}</th>
               </tr>
-              <tr style={{ backgroundColor: '#f2f2f2', color: brandStyles.grayText, fontSize: '0.85rem' }}>
-                <th style={{ padding: '10px', textAlign: 'left' }}>Description</th>
-                <th>Current</th>
-                <th>Current Amt</th>
-                <th>Proposed</th>
-                <th>Proposed Amt</th>
+              <tr style={{ backgroundColor: '#f2f2f2', color: '#333', fontSize: '0.90rem' }}>
+                <th style={{ padding: '10px', textAlign: 'center' }}>Description</th>
+                <th>Current Rate</th>
+                <th>Current Amount</th>
+                <th>Proposed Rate</th>
+                <th>Proposed Amount</th>
               </tr>
             </thead>
             <tbody style={{ fontSize: '0.9rem' }}>
-              <tr style={{ borderBottom: '1px solid #eee' }}><td style={{ padding: '12px' }}>Basic Customer Charge</td><td>Fixed</td><td>${cur.customer.toFixed(2)}</td><td>Fixed</td><td>${prop.customer.toFixed(2)}</td></tr>
-              <tr style={{ borderBottom: '1px solid #eee' }}><td>Energy Charge</td><td>${selectedRates.current.energy.toFixed(5)}</td><td>${cur.energy.toFixed(2)}</td><td>${selectedRates.proposed.energy.toFixed(5)}</td><td>${prop.energy.toFixed(2)}</td></tr>
-              <tr style={{ borderBottom: '1px solid #eee' }}><td>Storm Recovery Charge</td><td>${selectedRates.current.storm.toFixed(5)}</td><td>${cur.storm.toFixed(2)}</td><td>${selectedRates.proposed.storm.toFixed(5)}</td><td>${prop.storm.toFixed(2)}</td></tr>
-              <tr style={{ borderBottom: '1px solid #eee' }}><td>Summary of Rider Adjustments</td><td>${selectedRates.current.rider.toFixed(5)}</td><td>${cur.rider.toFixed(2)}</td><td>${selectedRates.proposed.rider.toFixed(5)}</td><td>${prop.rider.toFixed(2)}</td></tr>
-              <tr style={{ borderBottom: '1px solid #eee' }}><td>Clean Energy Rider</td><td>Fixed</td><td>${cur.clean.toFixed(2)}</td><td>Fixed</td><td>${prop.clean.toFixed(2)}</td></tr>
-              <tr style={{ borderBottom: '2px solid #ccc' }}><td>NC Sales Tax (7.0%)</td><td>—</td><td>${cur.tax.toFixed(2)}</td><td>—</td><td>${prop.tax.toFixed(2)}</td></tr>
+              {/* --- KEY CHANGE 2 & 3: EDITING TEXT HERE --- */}
+              <tr style={{ borderBottom: '1px solid #eee' }}>
+                {renderDescriptionCell("Basic Customer Charge", "A fixed monthly fee that covers the cost of meter reading, billing, and maintaining your service connection regardless of usage.")}
+                <td>Fixed</td><td>${cur.customer.toFixed(2)}</td><td>Fixed</td><td>${prop.customer.toFixed(2)}</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}>
+                {renderDescriptionCell("Energy Charge", "The cost for the actual electricity consumed (per kWh). This varies based on your total monthly usage.")}
+                <td>${selectedRates.current.energy.toFixed(5)}</td><td>${cur.energy.toFixed(2)}</td><td>${selectedRates.proposed.energy.toFixed(5)}</td><td>${prop.energy.toFixed(2)}</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}>
+                {renderDescriptionCell("Storm Recovery Charge", "Funds used to repair the grid and restore power following major named storms and extreme weather events.")}
+                <td>${selectedRates.current.storm.toFixed(5)}</td><td>${cur.storm.toFixed(2)}</td><td>${selectedRates.proposed.storm.toFixed(5)}</td><td>${prop.storm.toFixed(2)}</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}>
+                {renderDescriptionCell("Summary of Rider Adjustments", "Includes variable costs like fuel, energy efficiency programs, and specific regulatory adjustments.")}
+                <td>${selectedRates.current.rider.toFixed(5)}</td><td>${cur.rider.toFixed(2)}</td><td>${selectedRates.proposed.rider.toFixed(5)}</td><td>${prop.rider.toFixed(2)}</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #eee' }}>
+                {renderDescriptionCell("Clean Energy Rider", "Supports the transition to carbon-free generation and state-mandated renewable energy targets.")}
+                <td>Fixed</td><td>${cur.clean.toFixed(2)}</td><td>Fixed</td><td>${prop.clean.toFixed(2)}</td>
+              </tr>
+              <tr style={{ borderBottom: '2px solid #ccc' }}>
+                {renderDescriptionCell("NC Sales Tax (7.0%)", "State-mandated sales tax applied to the subtotal of all electric service charges.")}
+                <td>—</td><td>${cur.tax.toFixed(2)}</td><td>—</td><td>${prop.tax.toFixed(2)}</td>
+              </tr>
             </tbody>
             <tfoot>
               <tr style={{ backgroundColor: '#fdfdfd' }}>
@@ -209,7 +271,7 @@ const utilityData = {
             </tfoot>
           </table>
 
-          <div style={{ marginTop: '30px' }}>
+          <div style={{ marginTop: '50px' }}>
             <h4 style={{ color: brandStyles.blueAccent, marginBottom: '10px', fontSize: '0.95rem', borderBottom: `2px solid ${brandStyles.greenAccent}`, paddingBottom: '5px' }}>
               Schedule {
                 rateType === 'tou' ? 'R-TOU' : 
@@ -237,7 +299,7 @@ const utilityData = {
             </table>
           </div>
 
-          <div style={{ marginTop: '25px', backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', borderLeft: `4px solid ${brandStyles.blueAccent}` }}>
+          <div style={{ marginTop: '50px', backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '4px', borderLeft: `4px solid ${brandStyles.blueAccent}` }}>
             <p style={{ fontSize: '0.85rem', color: brandStyles.grayText, margin: 0 }}>
               <strong>{
                 rateType === 'tou' ? 'R-TOU' : 
@@ -247,21 +309,15 @@ const utilityData = {
             </p>
           </div>
 
-          <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fffbe6', borderRadius: '4px', border: '1px solid #ffe58f' }}>
+          <div style={{ marginTop: '50px', padding: '15px', backgroundColor: '#fffbe6', borderRadius: '4px', border: '1px solid #ffe58f' }}>
             <p style={{ fontSize: '0.82rem', color: '#856404', margin: 0, lineHeight: '1.5' }}>
               <strong>Individual Usage Note:</strong> These figures are estimates based on average consumption models. Your actual bill will vary based on household size, personal energy habits, appliance efficiency, and home insulation. Factors such as extreme weather conditions, water heater settings, and the use of high-energy equipment (like EVs or pool pumps) can significantly affect your monthly total.
             </p>
           </div>
 
-          <div style={{ marginTop: '20px', padding: '15px 0', borderTop: '1px dashed #ccc' }}>
-            <p style={{ fontSize: '0.8rem', color: brandStyles.grayText, margin: 0 }}>
-              *Rate schedules can be found on your bill or account page. Visit <a href="https://www.duke-energy.com/home/billing/rates" target="_blank" rel="noopener noreferrer" style={{ color: brandStyles.blueAccent, fontWeight: '700' }}>duke-energy.com/rates</a> for details.
-            </p>
-          </div>
-
           <footer style={{ marginTop: '40px', padding: '30px 0', borderTop: `1px solid #eee` }}>
             <p style={{ fontSize: '0.75rem', color: '#999', textAlign: 'center', lineHeight: '1.4' }}>
-              <strong>Data Sources:</strong> NCUC Dockets E-7 Sub 1276 & E-2 Sub 1320.
+              <strong>Data Sources:</strong> NCUC Dockets E-7 Sub 1276 & E-2 Sub 1300.
             </p>
           </footer>
         </div>

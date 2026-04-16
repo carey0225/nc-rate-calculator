@@ -13,9 +13,9 @@ const DeepDive = () => {
       chart: [
         { name: 'Fuel & Variable O&M', value: 47.89, percentage: '29%', fill: '#007dc3', bg: '#f4faff', detail: 'Actual cost of coal, gas, and uranium used to generate power.' },
         { name: 'Transmission', value: 8.25, percentage: '5%', fill: '#98bf3c', bg: '#f6fff4', detail: 'The "high-voltage highway" of large towers and lines.' },
-        { name: 'Distribution', value: 24.26, percentage: '15%', fill: '#254c91', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing ($14 fixed + $25 usage).' },
+        { name: 'Distribution', value: 24.26, percentage: '15%', fill: '#254c91', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing.' },
         { name: 'Generation / Fixed Production', value: 57.15, percentage: '34%', fill: '#00a9ce', bg: '#f0f9ff', detail: 'Operation, maintenance, and debt for building power plants.' },
-        { name: 'Customer Costs', value: 28.11, percentage: '17%', fill: '#636566', bg: '#f8f9fa', detail: 'Energy efficiency, clean energy (REPS), and storm recovery.' },
+        { name: 'Customer Costs', value: 28.11, percentage: '17%', fill: '#636566', bg: '#f8f9fa', detail: 'Clean Energy and Energy Efficiency Portfolio Standard (CEPS), and storm recovery.' },
       ]
     },
     DEC: {
@@ -24,9 +24,9 @@ const DeepDive = () => {
       chart: [
         { name: 'Fuel & Variable O&M', value: 29.25, percentage: '22%', fill: '#007dc3', bg: '#f4faff', detail: 'Actual cost of coal, gas, and uranium used to generate power.' },
         { name: 'Transmission', value: 15.43, percentage: '11%', fill: '#98bf3c', bg: '#f6fff4', detail: 'The "high-voltage highway" of large towers and lines.' },
-        { name: 'Distribution', value: 32.71, percentage: '24%', fill: '#254c91', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing ($14 fixed + $25 usage).' },
+        { name: 'Distribution', value: 32.71, percentage: '24%', fill: '#254c91', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing.' },
         { name: 'Generation / Fixed Production', value: 42.55, percentage: '32%', fill: '#00a9ce', bg: '#f0f9ff', detail: 'Operation, maintenance, and debt for building power plants.' },
-        { name: 'Customer Costs', value: 14.40, percentage: '11%', fill: '#636566', bg: '#f8f9fa', detail: 'Energy efficiency, clean energy (REPS), and storm recovery.' },
+        { name: 'Customer Costs', value: 14.40, percentage: '11%', fill: '#636566', bg: '#f8f9fa', detail: 'Clean Energy and Energy Efficiency Portfolio Standard (CEPS), and storm recovery.' },
       ]
     }
   };
@@ -48,7 +48,7 @@ const DeepDive = () => {
 
         {/* SECTION 1: HEADER & INTRO */}
         <header style={{ padding: '40px 20px', textAlign: 'center' }}>
-          <h1 style={{ color: brandStyles.blue, fontSize: '2.4rem', marginBottom: '15px', fontWeight: '700' }}>Unbundling Your Energy Dollar</h1>
+          <h1 style={{ color: brandStyles.blue, fontSize: '2.4rem', marginBottom: '15px', fontWeight: '700' }}>Unbundling Your Energy Dollars</h1>
           <p style={{ color: brandStyles.gray, fontSize: '1.1rem', maxWidth: '850px', margin: '0 auto', lineHeight: '1.7' }}>
             Most people only see the bottom line on their monthly statement. But behind that total is a complex web of costs 
             required to keep North Carolina powered 24/7. This page <strong>unbundles</strong> the 2026 rate projections, 
@@ -167,7 +167,7 @@ const DeepDive = () => {
         </section>
 
         <footer style={{ textAlign: 'center', padding: '40px', color: brandStyles.gray, fontSize: '0.85rem', borderTop: '1px solid #eee' }}>
-          <p>Data Source: Projected 2026 Cost of Service Studies (NCUC Docket Nos. E-2 Sub 1300 & E-7 Sub 1330).</p>
+          <p>Data Source: Projected 2026 Cost of Service Studies (NCUC Docket Num. E-2 Sub 1300 & E-7 Sub 1276).</p>
           <p style={{ marginTop: '10px' }}>Individual results vary based on actual household usage patterns and weather extremes.</p>
         </footer>
       </div>

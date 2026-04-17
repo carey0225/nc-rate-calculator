@@ -53,7 +53,7 @@ const Home = () => {
           period: "Flat Rate", 
           definition: "24/7 Universal Rate", 
           rate: "$0.12540",
-          tooltip: "A flat volumetric rate where the price per kWh remains constant regardless of the time of day or day of the week."
+          tooltip: "A flat rate where the price per kWh remains constant regardless of the time of day or day of the week."
         }]
       },
       tou: {
@@ -118,8 +118,8 @@ const Home = () => {
 
   const getDynamicDisclaimer = () => {
     const disclaimers = {
-      standard: "These estimates are based on a volumetric charge per kWh consumed plus a monthly fixed charge. This remains the baseline for most residential customers.",
-      tou: `Estimates Only: This analysis includes both energy consumption rates and estimated demand charges based on NCUC Docket No. E-7, Subs 1276/1325.`
+      standard: "These estimates are based on a volumetric charge per kWh consumed plus a monthly fixed charge. This remains the baseline for most residential customers according to the most recent annual rate cases when the North Carolina Utilities Commission determines how much the utility is allowed to adjust electricity rates.",
+      tou: `Estimates Only: This analysis provides an estimated comparison based on the Duke Energy Carolinas Schedule RT (Residential Service, Time of Use) effective January 1, 2026.`
     };
     
     const scheduleName = rateType === 'tou' 

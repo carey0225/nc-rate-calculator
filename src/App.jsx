@@ -32,7 +32,12 @@ const Home = () => {
       standard: {
         current: { customer: 14.00, energy: 0.12623, storm: 0.00210, rider: 0.02097, clean: 1.81 },
         proposed: { customer: 16.00, energy: 0.14981, storm: 0.002492, rider: 0.024888, clean: 2.15 },
-        components: [{ period: "Flat Rate", definition: "24/7 Universal Rate", rate: "$0.14958" }]
+        components: [{ 
+          period: "Flat Rate", 
+          definition: "24/7 Universal Rate", 
+          rate: "12.623¢",
+          tooltip: "A flat rate where the price per kWh remains constant regardless of the time of day or day of the week."
+         }]
       },
       tou: {
         current: { customer: 14.00, energy: 0.10850, storm: 0.00210, rider: 0.01549, clean: 1.81 },
@@ -52,7 +57,7 @@ const Home = () => {
         components: [{ 
           period: "Flat Rate", 
           definition: "24/7 Universal Rate", 
-          rate: "$0.12540",
+          rate: "12.2603¢",
           tooltip: "A flat rate where the price per kWh remains constant regardless of the time of day or day of the week."
         }]
       },
@@ -147,32 +152,71 @@ const Home = () => {
   const cur = calculateBill(selectedRates.current);
   const prop = calculateBill(selectedRates.proposed);
 
-  const renderDescriptionCell = (text, tooltipText) => (
+ const renderDescriptionCell = (text, tooltipText) => {
+  // 1. Clean the text for easier matching
+  const cleanText = text.trim().toLowerCase();
+
+  // 2. START OF THE NEW CODE: Logic for NCSEA Branding Colors
+  let dotColor = "#254c91"; // Default to NCSEA Dark Blue
+
+  if (cleanText.includes("customer")) {
+    dotColor = "#007dc3"; // NCSEA Blue
+  } else if (cleanText.includes("energy charge")) {
+    dotColor = "#98bf3c"; // NCSEA Light Green
+  } else if (cleanText.includes("storm")) {
+    dotColor = "#368843"; // NCSEA Dark Green
+  } else if (cleanText.includes("rider")) {
+    dotColor = "#d29c3d"; // NCSEA Orange
+  } else if (cleanText.includes("clean")) {
+    dotColor = "#e63714"; // NCSEA Light Green
+  } else if (cleanText.includes("tax")) {
+    dotColor = "#636566"; // NCSEA Gray
+  }
+  return (
     <td 
       style={{ padding: '12px', position: 'relative', cursor: 'pointer' }}
       onMouseEnter={() => setHoveredItem(text)}
       onMouseLeave={() => setHoveredItem(null)}
     >
-      <span style={{ borderBottom: `1px dotted ${brandStyles.grayText}` }}>{text}</span>
+      <span style={{ 
+        borderBottom: `1px dotted ${dotColor}`,
+        transition: 'all 0.2s ease' 
+      }}>
+        {text}
+      </span>
+
       {hoveredItem === text && (
         <div style={{
-          position: 'absolute', bottom: '100%', left: '0', marginBottom: '5px',
-          backgroundColor: '#fff', width: '300px', padding: '12px 18px',
-          fontSize: '0.8rem', color: '#636566', borderRadius: '8px',
-          zIndex: 100, boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
-          display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left', lineHeight: '1.4'
+          position: 'absolute',
+          top: '100%',
+          left: '0',
+          backgroundColor: '#fff',
+          width: '320px',           // Controlled size per your request
+          padding: '12px 18px',
+          fontSize: '0.85rem',      // Controlled font size per your request
+          lineHeight: '1.5',
+          borderRadius: '8px',
+          zIndex: 100,
+          marginTop: '10px',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ height: '8px', width: '8px', borderRadius: '50%', backgroundColor: brandStyles.blueAccent }}></span>
-            <strong style={{ color: '#333' }}>{text}</strong>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <span style={{ 
+              height: '10px', 
+              width: '10px', 
+              borderRadius: '50%', 
+              backgroundColor: dotColor 
+            }}></span>
+            <strong style={{ color: '#254c91' }}>{text}</strong>
           </div>
-          <div style={{ paddingLeft: '16px', color: brandStyles.grayText }}>
+          <div style={{ color: '#636566' }}>
             {tooltipText}
           </div>
         </div>
       )}
     </td>
   );
+};
 
   return (
     <div className="bill-page-bg" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
@@ -309,6 +353,25 @@ const Home = () => {
               <strong>Schedule {getDynamicDisclaimer().name} Analysis:</strong> {getDynamicDisclaimer().text}
             </p>
           </div>
+          <div style={{ 
+  marginTop: '30px', 
+  padding: '20px', 
+  backgroundColor: '#fff', 
+  border: '1px solid #e1e1e1', 
+  borderRadius: '8px',
+  borderTop: `4px solid #254c91` // NCSEA Dark Blue
+}}>
+  <h5 style={{ margin: '0 0 10px 0', color: '#254c91', fontSize: '1rem', fontWeight: '700' }}>
+    Important Considerations
+  </h5>
+  <p style={{ margin: 0, fontSize: '0.85rem', lineHeight: '1.6', color: '#636566' }}>
+    These figures are <strong>estimates only</strong>. Actual residential bills will vary significantly based 
+    on individual household size, the energy efficiency of installed appliances, and specific 
+    personal usage habits. 
+    <br /><br />
+    <strong>Always refer to your official utility statement for finalized billing totals.</strong>
+  </p>
+</div>
 
           <footer style={{ marginTop: '40px', padding: '30px 0', borderTop: `1px solid #eee` }}>
             <p style={{ fontSize: '0.75rem', color: '#999', textAlign: 'center', lineHeight: '1.4' }}>

@@ -11,22 +11,22 @@ const DeepDive = () => {
       total: 165.66,
       fullName: "Duke Energy Progress",
       chart: [
-        { name: 'Fuel & Variable O&M', value: 47.89, percentage: '29%', fill: '#007dc3', bg: '#f4faff', detail: 'Actual cost of coal, gas, and uranium used to generate power.' },
-        { name: 'Transmission', value: 8.25, percentage: '5%', fill: '#98bf3c', bg: '#f6fff4', detail: 'The "high-voltage highway" of large towers and lines.' },
-        { name: 'Distribution', value: 24.26, percentage: '15%', fill: '#254c91', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing.' },
-        { name: 'Generation / Fixed Production', value: 57.15, percentage: '34%', fill: '#00a9ce', bg: '#f0f9ff', detail: 'Operation, maintenance, and debt for building power plants.' },
-        { name: 'Customer Costs', value: 28.11, percentage: '17%', fill: '#636566', bg: '#f8f9fa', detail: 'Clean Energy and Energy Efficiency Portfolio Standard (CEPS), and storm recovery.' },
+        { name: 'Fuel & Variable O&M', value: 47.89, percentage: '29%', fill: '#007dc3', bg: '#f4faff', detail: 'Includes the cost of fossil and nuclear fuels (coal, gas, oil) and variable operating expenses, that fluctuate based on total power generation.' },
+        { name: 'Transmission', value: 8.25, percentage: '5%', fill: '#98bf3c', bg: '#f6fff4', detail: 'The total annual expenditure required to maintain and operate the high-voltage regional transmission system.' },
+        { name: 'Distribution', value: 24.26, percentage: '15%', fill: '#254c91', bg: '#f0fbfc', detail: 'The expenses associated with the network of lower-voltage power lines, transformers, and substations that deliver electricity from the regional transmission system directly to homes or businesses.' },
+        { name: 'Generation / Fixed Production', value: 57.15, percentage: '34%', fill: '#00a9ce', bg: '#f0f9ff', detail: 'The fixed costs associated with owning and maintaining power generation facilities—including nuclear, hydroelectric, and solar plants—which remain constant regardless of the actual amount of electricity produced to ensure the grid has reliable capacity available at all times.' },
+        { name: 'Customer Costs', value: 28.11, percentage: '17%', fill: '#636566', bg: '#f8f9fa', detail: 'The direct expenses associated with serving an individual account, regardless of energy usage—including meter installation and maintenance, accurate meter reading, billing services, and customer support.' },
       ]
     },
     DEC: {
-      total: 134.34,
+      total: 144.82,
       fullName: "Duke Energy Carolinas",
       chart: [
-        { name: 'Fuel & Variable O&M', value: 29.25, percentage: '22%', fill: '#007dc3', bg: '#f4faff', detail: 'Actual cost of coal, gas, and uranium used to generate power.' },
-        { name: 'Transmission', value: 15.43, percentage: '11%', fill: '#98bf3c', bg: '#f6fff4', detail: 'The "high-voltage highway" of large towers and lines.' },
-        { name: 'Distribution', value: 32.71, percentage: '24%', fill: '#254c91', bg: '#f0fbfc', detail: 'Local poles, transformers, and billing.' },
-        { name: 'Generation / Fixed Production', value: 42.55, percentage: '32%', fill: '#00a9ce', bg: '#f0f9ff', detail: 'Operation, maintenance, and debt for building power plants.' },
-        { name: 'Customer Costs', value: 14.40, percentage: '11%', fill: '#636566', bg: '#f8f9fa', detail: 'Clean Energy and Energy Efficiency Portfolio Standard (CEPS), and storm recovery.' },
+        { name: 'Fuel & Variable O&M', value: 42.26, percentage: '29%', fill: '#007dc3', bg: '#f4faff', detail: 'Includes the cost of fossil and nuclear fuels (coal, gas, oil) and variable operating expenses, that fluctuate based on total power generation.' },
+        { name: 'Transmission', value: 6.95, percentage: '5%', fill: '#98bf3c', bg: '#f6fff4', detail: 'The total annual expenditure required to maintain and operate the high-voltage regional transmission system.' },
+        { name: 'Distribution', value: 22.75, percentage: '16%', fill: '#254c91', bg: '#f0fbfc', detail: 'The expenses associated with the network of lower-voltage power lines, transformers, and substations that deliver electricity from the regional transmission system directly to homes or businesses.' },
+        { name: 'Generation / Fixed Production', value: 45.77, percentage: '31%', fill: '#00a9ce', bg: '#f0f9ff', detail: 'The fixed costs associated with owning and maintaining power generation facilities—including nuclear, hydroelectric, and solar plants—which remain constant regardless of the actual amount of electricity produced to ensure the grid has reliable capacity available at all times.' },
+        { name: 'Customer Costs', value: 27.09, percentage: '19%', fill: '#636566', bg: '#f8f9fa', detail: 'The direct expenses associated with serving an individual account, regardless of energy usage—including meter installation and maintenance, accurate meter reading, billing services, and customer support.' },
       ]
     }
   };
@@ -116,28 +116,39 @@ const DeepDive = () => {
         </section>
 
         {/* SECTION 3: THE WRITE-UP */}
-        <section style={{ padding: '0 20px 40px' }}>
-          <div style={{ background: '#fcfcfc', border: '1px solid #eee', borderRadius: '12px', padding: '35px', marginBottom: '40px' }}>
-            <h2 style={{ color: brandStyles.blue, marginTop: 0, fontWeight: '700' }}>DEP vs. DEC: Why do the numbers differ?</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginTop: '20px' }}>
-              <p style={{ color: brandStyles.gray, lineHeight: '1.7', margin: 0 }}>
-                <strong>The Fuel Gap:</strong> You’ll notice <strong>DEP</strong> typically has a higher fuel percentage (29%). 
-                This is driven by a unique mix of natural gas and nuclear generation required to meet the specific peak demand 
-                profiles of eastern North Carolina.
-              </p>
-              <p style={{ color: brandStyles.gray, lineHeight: '1.7', margin: 0 }}>
-                <strong>Infrastructure Costs:</strong> <strong>DEC</strong> carries higher Transmission costs (11%) 
-                due to the density of the Charlotte and Triad hubs, requiring more complex "high-voltage highways" to move power into major urban centers.
-              </p>
-            </div>
-            <div style={{ marginTop: '25px', padding: '20px', backgroundColor: '#f9fcf4', borderRadius: '8px', borderLeft: `4px solid ${brandStyles.green}` }}>
-              <p style={{ margin: 0, color: brandStyles.darkBlue, fontWeight: 600 }}>
-                The 2026 Shift: Across both utilities, a larger slice of your bill is shifting toward Generation and Transmission. 
-                This represents the "Carbon Plan" in action—retiring coal and building the infrastructure for a cleaner grid.
-              </p>
-            </div>
-          </div>
-        </section>
+<section style={{ padding: '0 20px 40px' }}>
+  <div style={{ background: '#fcfcfc', border: '1px solid #eee', borderRadius: '12px', padding: '35px', marginBottom: '40px' }}>
+    <h2 style={{ color: brandStyles.blue, marginTop: 0, fontWeight: '700' }}>
+      DEC vs. DEP: Understanding the Cost Structure
+    </h2>
+    
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginTop: '20px' }}>
+      <p style={{ color: brandStyles.gray, lineHeight: '1.7', margin: 0 }}>
+        <strong style={{ color: '#98bf3c' }}>Fuel & Operations Alignment:</strong> Both utilities currently 
+        allocate exactly <strong>29%</strong> of their cost structure to Fuel & Variable O&M. This reflects 
+        the shared cost of purchasing the raw materials—coal, natural gas, and nuclear fuel—required to 
+        power the North Carolina grid consistently across both regions.
+      </p>
+      
+      <p style={{ color: brandStyles.gray, lineHeight: '1.7', margin: 0 }}>
+        <strong style={{ color: '#007dc3' }}>Generation & Fixed Assets:</strong> The primary driver of the 
+        slight difference in totals is Fixed Production. <strong>DEP</strong> carries a slightly higher 
+        weighting here (<strong>34%</strong> vs. <strong>32%</strong> for DEC), representing specific 
+        long-term investments in power plant facilities and carbon-free generation targets required for 
+        the eastern part of the state.
+      </p>
+    </div>
+
+    <div style={{ marginTop: '25px', padding: '20px', backgroundColor: '#f9fcf4', borderRadius: '8px', borderLeft: `4px solid ${brandStyles.green}` }}>
+      <p style={{ margin: 0, color: brandStyles.darkBlue, fontWeight: 600 }}>
+        Structural Consistency: Despite regional differences, Transmission costs are scaled identically 
+        at <strong>5%</strong> for both utilities. This highlights a uniform statewide approach to 
+        maintaining the "high-voltage highways" that move bulk power from plants to major hubs like 
+        Charlotte, the Triad, and the Triangle.
+      </p>
+    </div>
+  </div>
+</section>
 
         {/* SECTION 4: INFO CARDS */}
         <section style={{ padding: '0 20px 40px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '25px' }}>
@@ -167,8 +178,8 @@ const DeepDive = () => {
         </section>
 
         <footer style={{ textAlign: 'center', padding: '40px', color: brandStyles.gray, fontSize: '0.85rem', borderTop: '1px solid #eee' }}>
-          <p>Data Source: Projected 2026 Cost of Service Studies (NCUC Docket Num. E-2 Sub 1300 & E-7 Sub 1276).</p>
-          <p style={{ marginTop: '10px' }}>Individual results vary based on actual household usage patterns and weather extremes.</p>
+          <p><strong>Data Source:</strong> North Carolina’s Public Utility Infrastructure & Regulatory Climate Presented by North Carolina Utilities Commission (March 2026)</p>
+          <p style={{ marginTop: '10px' }}></p>
         </footer>
       </div>
     </div>

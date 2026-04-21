@@ -20,6 +20,7 @@ const AnalyticsTracker = () => {
   return null;
 };
 
+
 const Home = () => {
   const [utility, setUtility] = useState('DEP'); 
   const [kwh, setKwh] = useState(1000); 
@@ -168,9 +169,9 @@ const Home = () => {
   } else if (cleanText.includes("rider")) {
     dotColor = "#d29c3d"; // NCSEA Orange
   } else if (cleanText.includes("clean")) {
-    dotColor = "#e63714"; // NCSEA Light Green
+    dotColor = "#007dc3"; // NCSEA Blue
   } else if (cleanText.includes("tax")) {
-    dotColor = "#636566"; // NCSEA Gray
+    dotColor = "#98bf3c"; // NCSEA Light Green
   }
   return (
     <td 
@@ -223,14 +224,59 @@ const Home = () => {
       <div className="official-bill-container" style={{ maxWidth: '1200px', margin: '0 auto', backgroundColor: '#fff', minHeight: '100vh' }}>
         <Navbar />
 
+        {/* --- 1. TITLES --- */}
         <div className="bill-title-bar" style={{ marginTop: '30px', textAlign: 'center' }}>
           <h2 style={brandStyles.mainHeading}>NC Residential Rate Impact Tool</h2>
           <p style={brandStyles.subHeading}>Projected 2026 Billing Impacts</p>
         </div>
 
+        {/* --- 2. INTRODUCTION (Put this right here) --- */}
+        <div style={{ 
+          display: 'flex',          // Enables flexible alignment
+          flexDirection: 'column',  // Stacks paragraphs on top of each other
+          alignItems: 'center',     // Centers the content horizontally
+          textAlign: 'center',      // Centers the text inside the paragraphs
+          padding: '10px 10% 20px', // 30px top, 10% side "squeeze", 40px bottom
+          margin: '0 auto',         // Centers the container itself
+          maxWidth: '900px'         // Prevents the lines from getting too long/hard to read
+        }}>
+          <div style={{ color: '#636566', fontSize: '1.1rem', lineHeight: '1.8' }}>
+    {/* NEW RATE INCREASE SENTENCE */}
+    <p style={{ 
+      marginBottom: '25px', 
+      fontSize: '1.15rem', 
+      color: '#254c91', // NCSEA Dark Blue
+      fontWeight: '600',
+      backgroundColor: '#f4f7f9',
+      padding: '15px 25px',
+      borderRadius: '8px',
+      borderLeft: `4px solid #007dc3` // NCSEA Blue
+    }}>
+      Duke Energy is seeking approval for a significant rate increase, with proposals 
+      potentially raising residential electricity bills by <strong>15% to 18%</strong> over the next two years.
+    </p>
+
+    <p style={{ marginBottom: '20px' }}>
+      As North Carolina transitions toward a cleaner, more modern energy grid, understanding 
+      how these proposed utility rates impact your monthly bill is essential. NCSEA developed this tool 
+      to provide clear transparency into the 2026 rate schedules for Duke Energy Carolinas (DEC) 
+      and Duke Energy Progress (DEP).
+    </p>
+    
+    <p style={{ margin: 0 }}>
+      By breaking down complex regulatory data into specific bill components—from infrastructure 
+      investments to variable fuel charges—this analyzer empowers you to see exactly where your 
+      utility dollars go and how <strong>Time-of-Use</strong> habits can drive meaningful savings.
+    </p>
+  </div>
+</div>
+        {/* IMPORTANT: The </div> above closes the grid! */}
+
+        {/* --- 3. UTILITY SELECTION (The buttons) --- */}
         <div style={{ textAlign: 'center', marginTop: '30px' }}>
           <h3 style={brandStyles.providerText}>Select Your Electricity Provider</h3>
         </div>
+        
 
         <section style={{ textAlign: 'center', padding: '20px 0', borderBottom: '1px solid #eee', marginBottom: '20px' }}>
           <div style={{ display: 'inline-flex', backgroundColor: '#f0f0f0', padding: '5px', borderRadius: '8px' }}>
@@ -249,7 +295,7 @@ const Home = () => {
 
         <section style={{ padding: '0 20px 25px', textAlign: 'center' }}>
           <h3 style={{ ...brandStyles.subHeading, fontSize: '1rem', marginBottom: '15px', fontWeight: '700' }}>
-            Select Your Residential Rate Schedule*
+            Select Your Residential Rate Schedule
           </h3>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
             {Object.keys(rateSchedules).map((key) => (
@@ -310,7 +356,7 @@ const Home = () => {
                 <td>Fixed</td><td>${cur.clean.toFixed(2)}</td><td>Fixed</td><td>${prop.clean.toFixed(2)}</td>
               </tr>
               <tr style={{ borderBottom: '2px solid #ccc' }}>
-                {renderDescriptionCell("NC Sales Tax (7.0%)", "State-mandated sales tax applied to the subtotal.")}
+                {renderDescriptionCell("NC Sales Tax (7.0%)", "State-mandated sales tax.")}
                 <td>—</td><td>${cur.tax.toFixed(2)}</td><td>—</td><td>${prop.tax.toFixed(2)}</td>
               </tr>
             </tbody>
@@ -374,8 +420,8 @@ const Home = () => {
 </div>
 
           <footer style={{ marginTop: '40px', padding: '30px 0', borderTop: `1px solid #eee` }}>
-            <p style={{ fontSize: '0.75rem', color: '#999', textAlign: 'center', lineHeight: '1.4' }}>
-              <strong>Data Sources:</strong> NCUC Dockets E-7 Sub 1276 & E-2 Sub 1300.
+            <p style={{ fontSize: '0.75rem', color: '#878787', textAlign: 'center', lineHeight: '1.4' }}>
+              <strong>Data Sources:</strong> NCUC Dockets E-7 Sub 1276, E-7 Sub 1314, E-7 Sub 1325, E-2 Sub 1300, E-2 Sub 1262, E-2 Sub 1219.
             </p>
           </footer>
         </div>

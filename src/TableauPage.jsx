@@ -30,7 +30,7 @@ const TableauPage = () => {
     <div className="bill-page-bg" style={{ fontFamily: brandStyles.fontFamily }}>
       <div className="official-bill-container" style={{ maxWidth: '1200px', margin: '0 auto', backgroundColor: '#fff', minHeight: '100vh' }}>
         <Navbar />
-        
+
         <div className="bill-title-bar" style={{ padding: '40px 20px', textAlign: 'center' }}>
           <h2 style={{ color: brandStyles.blue, fontSize: '2.4rem', fontWeight: '700', marginBottom: '15px' }}>
             Electricity Bill Example
@@ -40,30 +40,32 @@ const TableauPage = () => {
           </p>
         </div>
 
-        {/* SECTION: The frame now matches the 800px requirement [cite: 3] */}
-        <section 
-          className="tableau-frame" 
-          style={{ 
-            width: '95%', 
-            maxWidth: '1100px', 
-            height: '800px', // Removed the citation tags that caused the error
-            margin: '0 auto 40px auto', 
+        <section
+          className="tableau-frame"
+          style={{
+            width: '95%',
+            maxWidth: '1100px',
+            height: '1040px',
+            margin: '0 auto 40px auto',
             position: 'relative',
             border: `1px solid #eee`,
             borderRadius: '12px',
             boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
             backgroundColor: '#fff',
             display: 'block',
-            overflow: 'hidden' 
+            overflow: 'hidden'
           }}
         >
-          <tableau-viz 
+          {/*
+            hide-tabs is a boolean attribute in Embedding API v3 — presence = hidden,
+            regardless of its value. It must be omitted entirely for tabs to show.
+          */}
+          <tableau-viz
             id="tableauViz"
             src={tableauUrl}
-            device="desktop"             
-            toolbar="hidden" 
-            hide-tabs="true" // Explicitly hides tabs to save vertical space
-            style={{ width: '100%', height: '100%' }} 
+            device="desktop"
+            toolbar="hidden"
+            style={{ width: '100%', height: '100%' }}
           />
         </section>
 

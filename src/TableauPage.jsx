@@ -33,7 +33,7 @@ const TableauPage = () => {
 
         <div className="bill-title-bar" style={{ padding: '40px 20px', textAlign: 'center' }}>
           <h2 style={{ color: brandStyles.blue, fontSize: '2.4rem', fontWeight: '700', marginBottom: '15px' }}>
-            Electricity Bill Example
+            Electricity Will Example
           </h2>
           <p style={{ color: brandStyles.gray, fontSize: '1.1rem', maxWidth: '850px', margin: '0 auto', lineHeight: '1.7' }}>
             Interactive breakdown of residential billing structures and historical trends.
